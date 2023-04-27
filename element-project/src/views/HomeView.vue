@@ -49,7 +49,11 @@
               <a href="/">{{ $route.meta.title }}</a>
             </el-breadcrumb-item>
           </el-breadcrumb>
-          <img src="../assets/logo.png" alt="">
+          <!-- <img src="../assets/logo.png" alt=""> -->
+          <div>
+            {{ user.username }}
+            <img :src="user.avatar" alt="头像">
+          </div>
         </div>
         
 
@@ -65,6 +69,16 @@ import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
   name: "HomeView",
+  data() {
+    return {
+      user:{}
+    }
+  },
+  created(){
+    this.user = this.$store.state.user
+    // 从vuex state获取出来
+    console.log(this.$store.state.user)
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);

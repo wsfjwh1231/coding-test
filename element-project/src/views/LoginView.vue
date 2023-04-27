@@ -90,14 +90,16 @@ export default {
           })
             .then(res => {
               console.log(res);
-              // if (res.data.code == 200) {
-              //   this.$message.success("登录成功");
-              //   this.$router.push({ name: "home" });
-              // } else {
-              //   this.$message.error("登录失败");
-              // }
+              if (res.data.code == 200) {
+                this.$store.commit("setUser",res.data.user)
+                this.$message.success("登录成功");
+                this.$router.push({ name: "home" });
+              } else {
+                this.$message.error("登录失败");
+              }
             })
             .catch(err => {
+              console.log(err);
               console.log(err.response.data.message);
               this.$message.error(err.response.data.message);
             });

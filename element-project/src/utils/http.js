@@ -19,7 +19,7 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use(response => {
     console.log("响应拦截器")
     console.log(response)
-    return response.data;
+    return response;
 })
 
 export default instance
