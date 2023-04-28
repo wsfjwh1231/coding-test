@@ -142,16 +142,17 @@ export default {
       })
         .then(res => {
           console.log(res);
-          if (res.status == 200) {
+          if (res.data.code == 200) {
             //   成功 跳转分类列表界面
+            this.$message({
+              type: "success",
+              message: res.data.msg
+            });
+
             this.$router.push({
               name: "category"
             });
 
-            this.$message({
-              type: "success",
-              message: "分类创建成功！"
-            });
             
           } else {
             this.$message({

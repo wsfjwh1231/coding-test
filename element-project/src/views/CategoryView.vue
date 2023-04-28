@@ -43,11 +43,7 @@
                 <el-table-column label="操作">
                   <template slot-scope="scope">
                     <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button
-                      size="mini"
-                      type="danger"
-                      @click="handleDelete(scope.$index, scope.row)"
-                    >删除</el-button>
+                    <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -71,33 +67,6 @@
     </el-table>
     <!-- <el-pagination @current-change="pageChange" layout="prev, pager, next" :total="total"></el-pagination> -->
 
-    <!-- Form -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
-      <!-- <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"></el-form> -->
-      <el-form
-        :model="ruleForm"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="100px"
-        class="demo-ruleForm"
-      >
-        <el-form-item label="用户名" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="name">
-          <el-input v-model="ruleForm.phone"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="name">
-          <el-input v-model="ruleForm.password"></el-input>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <!-- <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button> -->
-        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -121,7 +90,6 @@ export default {
       rules: {
         name: [
           { required: true, message: "不能为空", trigger: "blur" }
-          // { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ]
       },
 
@@ -169,7 +137,6 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
           axios({
             url: "http://101.34.49.100:3001/addCategory",
             method: "post",
@@ -184,7 +151,6 @@ export default {
               this.dialogFormVisible = false;
               this.ruleForm.catId = "";
               this.ruleForm.catName = "";
-              // this.ruleForm.file = "";
             }
           });
         } else {
@@ -242,13 +208,21 @@ export default {
             if (res.data.code == 200) {
               // 刷新页面数据
               this.getCategoryList();
+              this.getCategoryLevelTwoList(categoryInfo.catId);
+
+
               this.$message({
                 type: "success",
-                message: "分类删除成功！"
+                message: res.data.msg
               });
             }
           })
-          .catch(() => {});
+          .catch(err => {
+            this.$message({
+                type: "error",
+                message: err.response.data.msg
+              });
+          });
       });
     },
 
