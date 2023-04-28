@@ -39,6 +39,22 @@ const routes = [
         meta: {
           title: "数据统计"
         }
+      },
+      {
+        path: '/category',
+        name: 'category',
+        component: () => import('../views/CategoryView.vue'),
+        meta: {
+          title: "商品分类"
+        }
+      },
+      {
+        path: '/addCategoryView',
+        name: 'addCategoryView',
+        component: () => import('../views/addCategoryView.vue'),
+        meta: {
+          title: "添加分类"
+        }
       }
     ],
     meta: {

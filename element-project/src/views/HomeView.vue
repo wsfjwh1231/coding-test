@@ -22,7 +22,7 @@
               <span>商品</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1">商品分类</el-menu-item>
+              <el-menu-item index="/category">商品分类</el-menu-item>
               <el-menu-item index="1-2">商品列表</el-menu-item>
               <el-menu-item index="1-3">添加商品</el-menu-item>
               <el-menu-item index="1-4">商品规格</el-menu-item>
