@@ -12,9 +12,9 @@
           <el-input v-model="ruleForm.catName"></el-input>
         </el-form-item>
 
-        <el-form-item label="上级分类" prop="region">
-          <el-select v-model="ruleForm.catId" placeholder="无上级分类">
-            <el-option label="无上级分类" value="0"></el-option>
+        <el-form-item label="上级分类">
+          <el-select v-model="ruleForm.num" placeholder="请选择">
+            <el-option label="无上级分类" :value="100" :key="100"></el-option>
             <el-option
               :label="item.catName"
               :value="item.catId"
@@ -24,13 +24,23 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="分类图" prop="name">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false" >
+        <!-- 设置了 :auto-upload="false" 后，文件上传事件不被再次调用，所以 before-upload 不生效 -->
+        <el-form-item label="分类图">
+          <el-upload
+            action="#"
+            :on-change="handleChange"
+            :before-upload="beforeAvatarUpload"
+            list-type="picture-card"
+            :auto-upload="false"
+          >
             <i slot="default" class="el-icon-plus"></i>
-            <div slot="file" slot-scope="{file}">
+            <div slot="file" slot-scope="{ file }">
               <img class="el-upload-list__item-thumbnail" :src="file.url" alt />
               <span class="el-upload-list__item-actions">
-                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                <span
+                  class="el-upload-list__item-preview"
+                  @click="handlePictureCardPreview(file)"
+                >
                   <i class="el-icon-zoom-in"></i>
                 </span>
                 <span
@@ -56,7 +66,9 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')"
+            >提交</el-button
+          >
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -79,13 +91,14 @@ export default {
         catId: "",
         // 选择的分类名称
         catName: "",
-        file: ""
+        file: "",
+        num: 100,
       },
       rules: {
         catName: [
-          { required: true, message: "请输入分类名称", trigger: "blur" }
-        ]
-      }
+          { required: true, message: "请输入分类名称", trigger: "blur" },
+        ],
+      },
     };
   },
 
@@ -95,9 +108,9 @@ export default {
 
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      // 临时注释
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
           this.addCategory();
         } else {
           console.log("error submit!!");
@@ -113,55 +126,64 @@ export default {
     getCategoryList(data) {
       axios({
         url: "http://101.34.49.100:3001/categoryLevelOneList",
-        method: "GET"
-      }).then(res => {
+        method: "GET",
+      }).then((res) => {
         console.log(res);
         this.tableData = res.data.list;
 
+        // 使用数组方法时候。必须要先定义数组 直接拿data的数据来取值的话F12会报错
+        let categoryNameList = [];
         // 分类名称集合
         for (let index = 0; index < this.tableData.length; index++) {
-          this.categoryName.push(this.tableData[index].catName);
+          categoryNameList.push(this.tableData[index].catName);
         }
-        console.log(this.categoryName);
+
+        this.categoryName = categoryNameList;
       });
     },
 
     // 创建分类
     addCategory() {
+      console.log("创建分类");
+      console.log(this.ruleForm.catName);
+      console.log(this.ruleForm.num);
+      console.log(this.ruleForm.file);
       axios({
         url: "http://101.34.49.100:3001/addCategory",
         method: "POST",
         data: {
-          category_id: this.ruleForm.catId,
+          category_id: this.ruleForm.num,
           catName: this.ruleForm.catName,
-          file: this.ruleForm.file
+          file: this.ruleForm.file,
         },
-        headers:{
-            "Content-Type":"multipart/form-data"
-        }
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.data.code == 200) {
+            this.ruleForm.num = 100;
+            this.ruleForm.catName = "";
+            this.ruleForm.file = "";
+
             //   成功 跳转分类列表界面
             this.$message({
               type: "success",
-              message: res.data.msg
+              message: res.data.msg,
             });
 
             this.$router.push({
-              name: "category"
+              name: "category",
             });
-
-            
           } else {
             this.$message({
               type: "error",
-              message: "分类创建失败！"
+              message: "分类创建失败！",
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           console.log(err.response.data.message);
           this.$message.error(err.response.data.message);
@@ -184,12 +206,28 @@ export default {
       console.log(file);
     },
 
-    upload(event, file, fileList){
-        console.log(event)
-        console.log(file)
-        console.log(fileList)
-    }
-  }
+    // 文件上传
+    handleChange(file) {
+      // console.log(file);
+      this.ruleForm.file = file.url;
+      console.log(this.ruleForm.file);
+    },
+
+    // 文件上传之前的检查
+    beforeAvatarUpload(file) {
+      console.log(file);
+      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+      const isLt500K = file.size / 1024 < 500;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
+      }
+      if (!isLt500K) {
+        this.$message.error("上传头像图片大小不能超过 500KB!");
+      }
+      return isJPG && isLt500K;
+    },
+  },
 };
 </script>
 

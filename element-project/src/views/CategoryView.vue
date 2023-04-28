@@ -11,14 +11,14 @@
     </el-row>
 
     <el-table :data="tableData" style="width: 100%" border :span="24">
-      <el-table-column prop="catId" label="编号" :span="2"></el-table-column>
+      <el-table-column  label="编号" :span="2"></el-table-column>
 
-      <el-table-column prop="catName" label="分类名称">
+      <el-table-column label="分类名称">
         <template slot-scope="scope">
-          <el-collapse v-model="activeNames" @change="getCategoryLevelTwoList(scope.row.catId)">
+          <!-- 注意 这里的collapseVisible变量控制组件的展开与隐蔽 类型为string 而非Boolean-->
+          <el-collapse v-model="collapseVisible" @change="getCategoryLevelTwoList(scope.row.catId)">
             <el-collapse-item :title="scope.row.catName" :name="scope.row.catId">
-              <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-              <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+
 
               <el-table :data="categoryData" style="width: 100%">
                 <el-table-column label="编号" width="180">
@@ -79,6 +79,7 @@ export default {
     return {
       title: "添加分类",
       activeNames: ["1"],
+      collapseVisible:"false",
       dialogFormVisible: false,
       ruleForm: {
         catId: "",
@@ -177,6 +178,7 @@ export default {
 
     // 查询二级分类数据
     getCategoryLevelTwoList(id) {
+      this.collapseVisible = "true"
       axios({
         url: "http://101.34.49.100:3001/categoryLevelTwoList",
         method: "get",
@@ -185,6 +187,7 @@ export default {
         }
       }).then(res => {
         this.categoryData = res.data.list;
+        
       });
     },
 
@@ -207,14 +210,15 @@ export default {
           .then(res => {
             if (res.data.code == 200) {
               // 刷新页面数据
+              
               this.getCategoryList();
               this.getCategoryLevelTwoList(categoryInfo.catId);
-
-
               this.$message({
                 type: "success",
                 message: res.data.msg
               });
+
+              this.collapseVisible = "false"
             }
           })
           .catch(err => {
