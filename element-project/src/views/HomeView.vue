@@ -75,9 +75,9 @@ export default {
     }
   },
   created(){
-    this.user = this.$store.state.user
     // 从vuex state获取出来
-    console.log(this.$store.state.user)
+    this.user = this.$store.state.user
+    console.log(this.user)
   },
   methods: {
     handleOpen(key, keyPath) {

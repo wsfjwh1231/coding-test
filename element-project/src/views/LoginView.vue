@@ -81,27 +81,28 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$http({
-            url: "/user/login",
+            url: "http://127.0.0.1:9998/login",
             method: "post",
             data: {
               username: this.ruleForm.userName,
               password: this.ruleForm.pass
+            },
+            Headers:{
+              "Content-Type":"application/json"
             }
           })
             .then(res => {
-              console.log(res);
               if (res.data.code == 200) {
-                this.$store.commit("setUser",res.data.user)
+                console.log(res.data.data)
+                this.$store.commit("setUser",res.data.data)
                 this.$message.success("登录成功");
                 this.$router.push({ name: "home" });
               } else {
-                this.$message.error("登录失败");
+                this.$message.error(res.data.msg);
               }
             })
             .catch(err => {
-              console.log(err);
-              console.log(err.response.data.message);
-              this.$message.error(err.response.data.message);
+              this.$message.error(err.message);
             });
 
           // axios({
