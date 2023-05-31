@@ -4,11 +4,9 @@
 			<image src="../../static/news/logo.png" class="top-left" mode=""></image>
 			<image src="../../static/news/notic.png" class="top-right" mode=""></image>
 		</view>
-		<scroll-view  scroll-x="true" >
-			<view class="newClassList">
+		<scroll-view  scroll-x="true" show-scrollbar="true"  scroll-left="500" style="white-space: nowrap;">
 				<view :class="['newClassItem',index == selectIndex?'newClassListSelect':'']"
 					v-for="(item,index) in newClassList" :key="item.id" @click="selectNews(item,index)">{{item.name}}</view>
-			</view>
 		</scroll-view>
 		<!-- <view class="newClassList">
 			<view :class="['newClassItem',index == selectIndex?'newClassListSelect':'']"
@@ -119,13 +117,6 @@
 		margin: 20rpx 20rpx;
 	}
 
-	.newClassList {
-		margin-top: 20rpx;
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
-	}
-
 	.newClassListSelect {
 		font-weight: 600;
 		border-bottom: 3px solid blue;
@@ -212,6 +203,29 @@
 		font-size: 10rpx;
 		width: 70%;
 		margin-left: 10rpx;
+	}
+	
+	.scroll-view_H{
+		display: inline-block;
+		width: 100%;
+		height: 100rpx;
+		font-size: 36rpx;
+	}
+	
+	.newClassList {
+		/* margin-top: 20rpx;
+		width: 100%;
+		display: flex;
+		justify-content: space-around; */
+		display: inline-block;
+		
+	}
+	
+	::v-deep .uni-scroll-view-content{
+		display: flex;
+		font-size: 30rpx;
+		justify-content: space-around;
+		
 	}
 	
 	
