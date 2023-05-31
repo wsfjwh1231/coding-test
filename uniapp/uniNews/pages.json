@@ -1,0 +1,76 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				//隐蔽导航栏
+				"navigationStyle": "custom"
+			}
+		}
+	    ,{
+            "path" : "pages/explore/explore",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "explore",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/topic/topic",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "topic",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/my/my",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "my",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#3366FF",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "/static/home.png",
+				"selectedIconPath": "/static/home_active.png"
+			},
+			{
+				"pagePath": "pages/explore/explore",
+				"text": "探索",
+				"iconPath": "/static/explore.png",
+				"selectedIconPath": "/static/explore_active.png"
+			},
+			{
+				"pagePath": "pages/topic/topic",
+				"text": "收藏",
+				"iconPath": "/static/topic.png",
+				"selectedIconPath": "/static/topic_active.png"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"text": "我的",
+				"iconPath": "/static/my.png",
+				"selectedIconPath": "/static/my_active.png"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}
