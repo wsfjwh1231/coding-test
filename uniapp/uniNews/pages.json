@@ -7,35 +7,45 @@
 				//隐蔽导航栏
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/explore/explore",
+			"style": {
+				"navigationBarTitleText": "explore",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/topic/topic",
+			"style": {
+				"navigationBarTitleText": "topic",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "my",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/my/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/my/register/register",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/explore/explore",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "explore",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/topic/topic",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "topic",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/my",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "my",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -45,8 +55,7 @@
 	"tabBar": {
 		"color": "#999999",
 		"selectedColor": "#3366FF",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "首页",
 				"iconPath": "/static/home.png",
@@ -65,7 +74,7 @@
 				"selectedIconPath": "/static/topic_active.png"
 			},
 			{
-				"pagePath": "pages/my/my",
+				"pagePath": "pages/my/login/login",
 				"text": "我的",
 				"iconPath": "/static/my.png",
 				"selectedIconPath": "/static/my_active.png"

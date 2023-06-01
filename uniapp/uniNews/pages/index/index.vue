@@ -4,15 +4,15 @@
 			<image src="../../static/news/logo.png" class="top-left" mode=""></image>
 			<image src="../../static/news/notic.png" class="top-right" mode=""></image>
 		</view>
-		<scroll-view  scroll-x="true" show-scrollbar="true"  scroll-left="500" style="white-space: nowrap;">
-				<view :class="['newClassItem',index == selectIndex?'newClassListSelect':'']"
-					v-for="(item,index) in newClassList" :key="item.id" @click="selectNews(item,index)">{{item.name}}</view>
-		</scroll-view>
-		<!-- <view class="newClassList">
-			<view :class="['newClassItem',index == selectIndex?'newClassListSelect':'']"
-				v-for="(item,index) in newClassList" :key="item.id" @click="selectNews(item,index)">{{item.name}}</view>
-		</view> -->
-		
+
+		<view class="newClassList">
+			<scroll-view scroll-x="true" class="nav">
+				<text :class="['newClassItem',index == selectIndex?'newClassListSelect':'']"
+					v-for="(item,index) in newClassList" :key="item.id" @click="selectNews(item,index)">{{item.name}}
+				</text>
+			</scroll-view>
+		</view>
+
 		<view class="newList">
 			<view class="newItem" v-for="item in newList">
 				<image :src="item.cover" mode="" class="newImg"></image>
@@ -27,7 +27,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -56,7 +56,7 @@
 					console.log(this.newClassList);
 				}
 			});
-			
+
 			//显示全部新闻
 			uni.request({
 				url: 'http://101.34.49.100:3002/news', //仅为示例，并非真实接口地址。
@@ -103,7 +103,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.top {
 		width: 100%;
 		display: flex;
@@ -115,6 +115,13 @@
 		width: 150rpx;
 		height: 50rpx;
 		margin: 20rpx 20rpx;
+	}
+
+	.newClassList {
+		margin-top: 20rpx;
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
 	}
 
 	.newClassListSelect {
@@ -133,6 +140,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		margin: 10px 20px;
 	}
 
 	.logo {
@@ -153,81 +161,74 @@
 		font-size: 36rpx;
 		color: #8f8f94;
 	}
-	
-	.newList{
-		flex:1;
+
+	.newList {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 	}
-	
-	.newItem{
+
+	.newItem {
 		display: flex;
 		flex-direction: row;
 		margin: 50rpx 20rpx;
 	}
-	
-	.newRight{
+
+	.newRight {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		margin: 0 20rpx;
 	}
-	
-	.newRightTop{
+
+	.newRightTop {
 		font-size: 30rpx;
 	}
-	
-	.newRightTitle{
+
+	.newRightTitle {
 		font-size: 40rpx;
 	}
-	
-	.newImg{
+
+	.newImg {
 		width: 300rpx;
 		height: 300rpx;
-		flex-shrink:0;
+		flex-shrink: 0;
 	}
-	
-	.newRightBottom{
+
+	.newRightBottom {
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
 	}
-	
-	.newRightBottom image{
+
+	.newRightBottom image {
 		border-radius: 50rpx;
 		width: 50rpx;
 		height: 50rpx;
 	}
-	
-	.newRightBottomText{
+
+	.newRightBottomText {
 		font-size: 10rpx;
 		width: 70%;
 		margin-left: 10rpx;
 	}
-	
-	.scroll-view_H{
-		display: inline-block;
-		width: 100%;
-		height: 100rpx;
-		font-size: 36rpx;
+
+	.newClassItem {
+		margin-right: 10px;
+		padding-bottom: 5px;
+		font-size: 80rpx;
 	}
-	
-	.newClassList {
-		/* margin-top: 20rpx;
+
+	.nav {
+		white-space: nowrap;
+		text-align: center;
 		width: 100%;
-		display: flex;
-		justify-content: space-around; */
-		display: inline-block;
+		height:180rpx;
+
+		::-webkit-scrollbar {
+			height: 0;
+		}
+		
 		
 	}
-	
-	::v-deep .uni-scroll-view-content{
-		display: flex;
-		font-size: 30rpx;
-		justify-content: space-around;
-		
-	}
-	
-	
-	
 </style>
