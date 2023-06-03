@@ -45,7 +45,27 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/my/edit/edit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "Fill your Profile",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "white"
+            }
+            
+        }
+        ,{
+            "path" : "pages/index/new/new",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -74,7 +94,7 @@
 				"selectedIconPath": "/static/topic_active.png"
 			},
 			{
-				"pagePath": "pages/my/login/login",
+				"pagePath": "pages/my/my",
 				"text": "我的",
 				"iconPath": "/static/my.png",
 				"selectedIconPath": "/static/my_active.png"

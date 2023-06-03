@@ -14,7 +14,7 @@
 		</view>
 
 		<view class="newList">
-			<view class="newItem" v-for="item in newList">
+			<view class="newItem" v-for="item in newList" @click="toNew">
 				<image :src="item.cover" mode="" class="newImg"></image>
 				<view class="newRight">
 					<view class="newRightTop">Europe</view>
@@ -38,36 +38,74 @@
 				title: 'Hello',
 				newClassList: [],
 				newList: [],
-				selectIndex: 0
+				selectIndex: 0,
+				user:{}
 			}
 		},
 		onLoad() {
+			console.log(111111)
+			const token = uni.getStorageSync("token")
+			if(token != ''){
+				console.log(222222)
+				const user = uni.getStorageSync("user")
+				if(user != ''){
+					console.log(user)
+					this.user = user
+					console.log(this.user)
+					
+				}else{
+					console.log("未登錄")
+				}
+				
+			}else{
+				console.log(333333)
+				uni.navigateTo({
+					url:"/pages/my/login/login"
+				})
+			}
+			
 			//查询分类
 			uni.request({
 				url: 'http://101.34.49.100:3002/classify', //仅为示例，并非真实接口地址。
 				method: "GET",
 				success: (res) => {
+					console.log(res.data)
 					this.newClassList = res.data.list;
 					this.newClassList.unshift({
 						id: 0,
 						name: "全部",
 						description: null
 					});
-					console.log(this.newClassList);
+				},
+				fail: (err) => {
+					console.log(err)
 				}
 			});
 
 			//显示全部新闻
 			uni.request({
+				
 				url: 'http://101.34.49.100:3002/news', //仅为示例，并非真实接口地址。
 				method: "GET",
 				success: (res) => {
+					console.log(res.data)
 					this.newList = res.data.list;
-					console.log(res.data.list);
+				},
+				fail: (err) => {
+					console.log(err)
 				}
 			});
 		},
 		methods: {
+			//跳转新闻详情
+			toNew(){
+				uni.navigateTo({
+					url:"/pages/index/new/new"
+				})
+				
+			},
+			
+			
 			// 选择新闻
 			selectNews(item, index) {
 				console.log(item.id, "item")

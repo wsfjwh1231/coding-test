@@ -24,7 +24,7 @@
 			<view class="infoMiddleBotton">{{user.introduction}}</view>
 		</view>
 		<view class="infoEdit">
-			<button type="primary">Edit profile</button>
+			<button type="primary" @click="toEdit">Edit profile</button>
 			<button type="primary">Website</button>
 		</view>
 
@@ -67,17 +67,34 @@
 			}
 		},
 		onLoad() {
+			
+		},
+		onShow() {
+			const token = uni.getStorageSync("token")
+			if(token == ''){
+				uni.navigateTo({
+					url:"/pages/my/login/login"
+				})
+			}
+			
 			const user = uni.getStorageSync("user")
 			if(user != ''){
 				console.log(user)
 				console.log(this.isLogin)
 				this.user = user
 				console.log(this.user)
+				
 			}else{
 				console.log("未登錄")
 			}
 		},
-		methods: {}
+		methods: {
+			toEdit(){
+				uni.navigateTo({
+					url: '/pages/my/edit/edit',
+				});
+			}
+		}
 	}
 </script>
 

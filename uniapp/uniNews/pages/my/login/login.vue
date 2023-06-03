@@ -14,7 +14,7 @@
 			<checkbox class="checkbox">Remember</checkbox>
 		</view>
 		<button type="primary" class="loginBtn" @click="loginBtn" >Login</button>
-		<view class="register">
+		<view class="register" @click="toRegister">
 			<text>前往註冊</text>
 		</view>
 	</view>
@@ -31,18 +31,17 @@
 			};
 		},
 		onLoad() {
-			const token = uni.getStorageSync("token")
-			if(token != ''){
-				console.log(token)
-				console.log(this.isLogin)
-				this.isLogin = 1
-				uni.navigateTo({
-					url:"/pages/my/my"
-				})
-			}else{
-				console.log("未登錄")
-				this.isLogin = 0
-			}
+			// const token = uni.getStorageSync("token")
+			// if(token != ''){
+			// 	console.log(token)
+			// 	console.log(this.isLogin)
+			// 	this.isLogin = 1
+			// 	uni.switchTab({
+			// 		url:"/pages/my/my"
+			// 	})
+			// }else{
+			// 	this.isLogin = 0
+			// }
 		},
 		methods: {
 			usernameInput(data){
@@ -72,8 +71,8 @@
 							uni.setStorageSync("token",res.data.token)
 							uni.setStorageSync("user",res.data.user)
 							this.isLogin = 1
-							uni.navigateTo({
-								url:"/pages/my/my"
+							uni.switchTab({
+								url:"/pages/index/index"
 							})
 						}else{
 							console.log(res.data.message)
@@ -81,6 +80,12 @@
 					}
 				})
 				
+			},
+			
+			toRegister(){
+				uni.navigateTo({
+					url:"/pages/my/register/register"
+				})
 			}
 		}
 	}
@@ -112,6 +117,7 @@
 			&>input {
 				width: 98%;
 				border: 1rpx solid gray;
+				border-radius: 10rpx;
 			}
 		}
 
@@ -125,6 +131,7 @@
 			&>input {
 				width: 98%;
 				border: 1rpx solid gray;
+				border-radius: 10rpx;
 			}
 		}
 
