@@ -36,19 +36,19 @@
 		<view class="comtentBottom">
 			<view class="comtentBottomLeft">
 				<view class="comtentBottomLeftImage" @click="onLike">
-					<image v-if="isLike == 0" src="/static/like.png" class="likeBlue" mode=""></image>
-					<image v-if="isLike == 1" src="/static/like_ok.png" class="likeBlue" mode=""></image>
+					<image v-if="newsInfo.is_like" src="/static/like_ok.png" class="likeBlue" mode=""></image>
+					<image v-else src="/static/like.png" class="likeBlue" mode=""></image>
 					<span>{{likeNum}}</span>
 				</view>
-				<view class="comtentBottomLeftImage">
+				<view class="comtentBottomLeftImage" @click="toComment">
 					<image src="/static/comment.png" mode=""></image>
-					<span>{{newsInfo.comment_count}}</span>
+					<span>{{commentNum}}</span>
 				</view>
 				
 				
 			</view>
-			<image v-if="isCollection == 1" src="/static/topic_active.png" mode="" @click="onCollection"></image>
-			<image v-if="isCollection == 0" src="/static/topic.png" mode="" @click="onCollection"></image>
+			<image v-if="newsInfo.is_collection" src="/static/topic_active.png" mode="" @click="onCollection"></image>
+			<image v-else src="/static/topic.png" mode="" @click="onCollection"></image>
 		</view>
 		
 		
@@ -59,24 +59,53 @@
 	export default {
 		data() {
 			return {
+				newsId:0,
 				user:{},
 				newsInfo:{},
 				// 0 未点赞，1已点赞
 				isLike:0,
 				//0 已收藏 1 未收藏
 				isCollection:0,
-				likeNum:0
+				likeNum:0,
+				commentNum:0,
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			console.log(options.newId)
+			this.user = uni.getStorageSync("user")
+			this.newsId = options.newId
 			this.getNew();
-			this.getUser()
+			this.getUser();
+			this.getCommentNum();
 		},
 		methods: {
+			//获取评论数量
+			getCommentNum(){
+				uni.request({
+					url:"commentCount",
+					method:"GET",
+					data:{
+						newsId:this.newsId
+					},
+					success: (res) => {
+						console.log(res.data)
+						this.commentNum = res.data.count
+					}
+				})
+			},
+			
+			//前往留言界面
+			toComment(){
+				console.log()
+				uni.navigateTo({
+					url:"/pages/index/comment/comment?newsId="+this.newsId
+				})
+			},
+			
 			//回退上一页
 			toBack(){
 				uni.navigateBack({
-					delta:10
+					delta:1
 				})
 			},
 			
@@ -84,14 +113,14 @@
 			onCollection(){
 				if(this.isCollection == 0){
 					uni.request({
-						url:"http://101.34.49.100:3002/news/collectionOrCancel",
+						url:"news/collectionOrCancel",
 						method:"POST",
 						header:{
 							"authorization":uni.getStorageSync("token")
 						},
 						data:{
 							userId:this.user.id,
-							newsId:this.newsInfo.id,
+							newsId:this.newsId,
 							isCollection:1
 						},
 						success: (res) => {
@@ -106,14 +135,14 @@
 					})
 				}else{
 					uni.request({
-						url:"http://101.34.49.100:3002/news/collectionOrCancel",
+						url:"news/collectionOrCancel",
 						method:"POST",
 						header:{
 							"authorization":uni.getStorageSync("token")
 						},
 						data:{
 							userId:this.user.id,
-							newsId:this.newsInfo.id,
+							newsId:this.newsId,
 							isCollection:0
 						},
 						success: (res) => {
@@ -134,14 +163,14 @@
 			onLike(){
 				if(this.isLike == 0){
 					uni.request({
-						url:"http://101.34.49.100:3002/giveLikeOrCancelGiveLike",
+						url:"giveLikeOrCancelGiveLike",
 						method:"POST",
 						header:{
 							"authorization":uni.getStorageSync("token")
 						},
 						data:{
 							userId:this.user.id,
-							newsId:this.newsInfo.id,
+							newsId:this.newsId,
 							isLike:1
 						},
 						success: (res) => {
@@ -156,14 +185,14 @@
 				}else{
 					
 					uni.request({
-						url:"http://101.34.49.100:3002/giveLikeOrCancelGiveLike",
+						url:"giveLikeOrCancelGiveLike",
 						method:"POST",
 						header:{
 							"authorization":uni.getStorageSync("token")
 						},
 						data:{
 							userId:this.user.id,
-							newsId:this.newsInfo.id,
+							newsId:this.newsId,
 							isLike:0
 						},
 						success: (res) => {
@@ -195,7 +224,7 @@
 			//获取新闻信息
 			getNew(){
 				uni.request({
-					url:"http://101.34.49.100:3002/news/detail?newsId=2&userId=424",
+					url:"news/detail?newsId="+this.newsId+"&userId="+this.user.id,
 					method:"GET",
 					header:{
 						"authorization":uni.getStorageSync("token")
@@ -218,10 +247,10 @@
 							
 							//获取点赞数量
 							uni.request({
-								url:"http://101.34.49.100:3002/getGiveLikeNum",
+								url:"getGiveLikeNum",
 								method:"GET",
 								data:{
-									newsId:2
+									newsId:this.newsId
 								},
 								success: (res) => {
 									console.log(res.data)
@@ -229,13 +258,6 @@
 								}
 								
 							})
-							
-						}else if(res.data.code == 401){
-							console.log(res.data.msg)
-							uni.navigateTo({
-								url:"/pages/my/login/login?code=401"
-							})
-							
 							
 						}else{
 								console.log(res.data)
@@ -326,6 +348,10 @@
 				.title{
 					font-weight: 600;
 					font-size: 35rpx;
+				}
+				
+				.content{
+					width: 100%;
 				}
 				
 				

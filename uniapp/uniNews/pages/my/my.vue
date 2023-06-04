@@ -2,7 +2,7 @@
 	<view class="personage">
 		<view class="top">
 			<view>Profile</view>
-			<image src="../../static/Vector.png" mode=""></image>
+			<image src="../../static/Vector.png" mode="" @click="toSetting"></image>
 		</view>
 		<view class="infoTop">
 			<image :src="user.avatar" mode=""></image>
@@ -89,6 +89,11 @@
 			}
 		},
 		methods: {
+			toSetting(){
+				uni.navigateTo({
+					url:"/pages/my/setting/setting"
+				})
+			},
 			toEdit(){
 				uni.navigateTo({
 					url: '/pages/my/edit/edit',

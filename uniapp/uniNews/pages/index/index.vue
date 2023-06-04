@@ -14,7 +14,7 @@
 		</view>
 
 		<view class="newList">
-			<view class="newItem" v-for="item in newList" @click="toNew">
+			<view class="newItem" v-for="(item,index) in newList" @click="toNew(index)">
 				<image :src="item.cover" mode="" class="newImg"></image>
 				<view class="newRight">
 					<view class="newRightTop">Europe</view>
@@ -66,7 +66,7 @@
 			
 			//查询分类
 			uni.request({
-				url: 'http://101.34.49.100:3002/classify', //仅为示例，并非真实接口地址。
+				url: 'classify', //仅为示例，并非真实接口地址。
 				method: "GET",
 				success: (res) => {
 					console.log(res.data)
@@ -85,7 +85,7 @@
 			//显示全部新闻
 			uni.request({
 				
-				url: 'http://101.34.49.100:3002/news', //仅为示例，并非真实接口地址。
+				url: 'news', //仅为示例，并非真实接口地址。
 				method: "GET",
 				success: (res) => {
 					console.log(res.data)
@@ -98,9 +98,11 @@
 		},
 		methods: {
 			//跳转新闻详情
-			toNew(){
+			toNew(index){
+				console.log(index)
+				console.log(this.newList[index])
 				uni.navigateTo({
-					url:"/pages/index/new/new"
+					url:"/pages/index/new/new?newId="+this.newList[index].id
 				})
 				
 			},
@@ -114,7 +116,7 @@
 
 				if (item.id == 0) {
 					uni.request({
-						url: 'http://101.34.49.100:3002/news', //仅为示例，并非真实接口地址。
+						url: 'news', //仅为示例，并非真实接口地址。
 						method: "GET",
 						success: (res) => {
 							this.newList = res.data.list;
@@ -123,7 +125,7 @@
 					});
 				} else {
 					uni.request({
-						url: 'http://101.34.49.100:3002/news', //仅为示例，并非真实接口地址。
+						url: 'news', //仅为示例，并非真实接口地址。
 						method: "GET",
 						data: {
 							id: item.id

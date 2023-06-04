@@ -63,7 +63,7 @@
 			
 			loginBtn(){
 				uni.request({
-					url:"http://101.34.49.100:3002/user/login",
+					url:"user/login",
 					method:"POST",
 					header:{
 						"Content-Type":"application/json"

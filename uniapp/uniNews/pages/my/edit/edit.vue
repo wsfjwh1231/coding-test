@@ -48,7 +48,7 @@
 		methods: {
 			upUserInfo(){
 				uni.request({
-					url:"http://101.34.49.100:3002/user/edit",
+					url:"user/edit",
 					method:"POST",
 					data:{
 						userId:this.user.id,
@@ -61,7 +61,7 @@
 						console.log(res.data)
 						if(res.data.code == 200){
 							uni.request({
-								url:"http://101.34.49.100:3002/user/getUserInfo",
+								url:"user/getUserInfo",
 								method:"GET",
 								header:{
 									"Content-Type":"multipart/form-data",
@@ -89,7 +89,7 @@
 						console.log(res)
 						const tempFilePaths = res.tempFilePaths;
 						uni.uploadFile({
-							url:"http://101.34.49.100:3002/upload",
+							url:"upload",
 							filePath: tempFilePaths[0],
 							nmme:"file",
 							success: (res) => {

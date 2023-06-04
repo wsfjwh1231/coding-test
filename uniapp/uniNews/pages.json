@@ -66,6 +66,27 @@
             }
             
         }
+        ,{
+            "path" : "pages/index/comment/comment",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "Comments",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/my/setting/setting",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "Setting",
+				"navigationBarBackgroundColor": "white",
+                "enablePullDownRefresh": false
+				
+            }
+            
+        }
+        
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

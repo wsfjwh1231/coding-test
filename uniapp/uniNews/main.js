@@ -1,4 +1,5 @@
 import App from './App'
+import "utils/Interceptor.js"
 
 // #ifndef VUE3
 import Vue from 'vue'
