@@ -1,7 +1,7 @@
 <template>
 	<view class="new">
 		<view class="nav">
-			<image src="/static/back.png" mode=""></image>
+			<image src="/static/back.png" mode="" @click="toBack"></image>
 			<view class="navRight">
 				<image src="/static/fenxiang.png" mode=""></image>
 				<image src="/static/setting.png" mode="aspectFit"></image>
@@ -35,7 +35,7 @@
 		
 		<view class="comtentBottom">
 			<view class="comtentBottomLeft">
-				<view class="comtentBottomLeftImage">
+				<view class="comtentBottomLeftImage" @click="onLike">
 					<image v-if="isLike == 0" src="/static/like.png" class="likeBlue" mode=""></image>
 					<image v-if="isLike == 1" src="/static/like_ok.png" class="likeBlue" mode=""></image>
 					<span>{{likeNum}}</span>
@@ -47,7 +47,8 @@
 				
 				
 			</view>
-			<image src="/static/topic_active.png" mode=""></image>
+			<image v-if="isCollection == 1" src="/static/topic_active.png" mode="" @click="onCollection"></image>
+			<image v-if="isCollection == 0" src="/static/topic.png" mode="" @click="onCollection"></image>
 		</view>
 		
 		
@@ -58,19 +59,143 @@
 	export default {
 		data() {
 			return {
+				user:{},
 				newsInfo:{},
 				// 0 未点赞，1已点赞
 				isLike:0,
+				//0 已收藏 1 未收藏
+				isCollection:0,
 				likeNum:0
 			}
 		},
 		onLoad() {
-			this.getNew()
+			this.getNew();
+			this.getUser()
 		},
 		methods: {
+			//回退上一页
+			toBack(){
+				uni.navigateBack({
+					delta:10
+				})
+			},
+			
+			//收藏操作
+			onCollection(){
+				if(this.isCollection == 0){
+					uni.request({
+						url:"http://101.34.49.100:3002/news/collectionOrCancel",
+						method:"POST",
+						header:{
+							"authorization":uni.getStorageSync("token")
+						},
+						data:{
+							userId:this.user.id,
+							newsId:this.newsInfo.id,
+							isCollection:1
+						},
+						success: (res) => {
+							console.log(res.data)
+							this.isCollection = 1
+							uni.showToast({
+								title:"收藏成功"
+							})
+							this.getNew()
+						}
+						
+					})
+				}else{
+					uni.request({
+						url:"http://101.34.49.100:3002/news/collectionOrCancel",
+						method:"POST",
+						header:{
+							"authorization":uni.getStorageSync("token")
+						},
+						data:{
+							userId:this.user.id,
+							newsId:this.newsInfo.id,
+							isCollection:0
+						},
+						success: (res) => {
+							console.log(res.data)
+							this.isCollection = 0
+							uni.showToast({
+								title:"已取消收藏"
+							})
+							this.getNew()
+						}
+						
+					})
+				}
+				
+			},
+			
+			//点赞操作
+			onLike(){
+				if(this.isLike == 0){
+					uni.request({
+						url:"http://101.34.49.100:3002/giveLikeOrCancelGiveLike",
+						method:"POST",
+						header:{
+							"authorization":uni.getStorageSync("token")
+						},
+						data:{
+							userId:this.user.id,
+							newsId:this.newsInfo.id,
+							isLike:1
+						},
+						success: (res) => {
+							console.log(res.data)
+							this.isLike = 1
+							this.getNew()
+						},
+						fail: (err) => {
+							console.log(err)
+						}
+					})
+				}else{
+					
+					uni.request({
+						url:"http://101.34.49.100:3002/giveLikeOrCancelGiveLike",
+						method:"POST",
+						header:{
+							"authorization":uni.getStorageSync("token")
+						},
+						data:{
+							userId:this.user.id,
+							newsId:this.newsInfo.id,
+							isLike:0
+						},
+						success: (res) => {
+							console.log(res.data)
+							this.isLike = 0
+							this.getNew()
+						},
+						fail: (err) => {
+							console.log(err)
+						}
+					})
+				}
+			},
+			
+			// 获取用户信息
+			getUser(){
+				const user = uni.getStorageSync("user")
+				if(user != ''){
+					console.log(user)
+					console.log(this.isLogin)
+					this.user = user
+					console.log(this.user)
+					
+				}else{
+					console.log("未登錄")
+				}
+			},
+			
+			//获取新闻信息
 			getNew(){
 				uni.request({
-					url:"http://101.34.49.100:3002/news/detail?newsId=2&userId=1",
+					url:"http://101.34.49.100:3002/news/detail?newsId=2&userId=424",
 					method:"GET",
 					header:{
 						"authorization":uni.getStorageSync("token")
@@ -79,6 +204,17 @@
 						if(res.data.code == 200){
 							console.log(res.data)
 							this.newsInfo = res.data.newsInfo
+							if(this.newsInfo.is_like){
+								this.isLike = 1
+							}else{
+								this.isLike = 0
+							}
+							
+							if(this.newsInfo.is_collection){
+								this.isCollection = 1
+							}else{
+								this.isCollection = 0
+							}
 							
 							//获取点赞数量
 							uni.request({
@@ -95,9 +231,12 @@
 							})
 							
 						}else if(res.data.code == 401){
+							console.log(res.data.msg)
 							uni.navigateTo({
-								url:"/pages/my/login/login"
+								url:"/pages/my/login/login?code=401"
 							})
+							
+							
 						}else{
 								console.log(res.data)
 						}
@@ -170,7 +309,7 @@
 			.newInfoContent{
 				display: flex;
 				flex-direction: column;
-				align-items: center;
+				align-items: center;  
 				
 				image{
 					width: 100%;

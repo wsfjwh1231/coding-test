@@ -30,7 +30,14 @@
 				isLogin:0
 			};
 		},
-		onLoad() {
+		onLoad(options) {
+			if(options.code == 401){
+				uni.showToast({
+					title:"登录失效，请重新登录",
+					icon:"error",
+					duration:3000
+				})
+			}
 			// const token = uni.getStorageSync("token")
 			// if(token != ''){
 			// 	console.log(token)

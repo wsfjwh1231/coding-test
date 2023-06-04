@@ -18,7 +18,8 @@
 			"path": "pages/topic/topic",
 			"style": {
 				"navigationBarTitleText": "topic",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 
 		}, {
