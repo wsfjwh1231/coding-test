@@ -25,7 +25,7 @@
 		</view>
 		<view class="infoEdit">
 			<button type="primary" @click="toEdit">Edit profile</button>
-			<button type="primary">Website</button>
+			<button type="primary" @click="toInformation">Website</button>
 		</view>
 
 		<view class="infoBottomTop">
@@ -89,6 +89,11 @@
 			}
 		},
 		methods: {
+			toInformation(){
+				uni.navigateTo({
+					url:"/pages/my/information/information"
+				})
+			},
 			toSetting(){
 				uni.navigateTo({
 					url:"/pages/my/setting/setting"

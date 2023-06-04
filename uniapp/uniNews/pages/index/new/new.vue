@@ -365,7 +365,7 @@
 			justify-content: space-between;
 			position: fixed;
 			background-color: white;
-			width: 90%;
+			width: 95%;
 			bottom: 0;
 			
 			.comtentBottomLeft{

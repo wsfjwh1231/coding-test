@@ -1,37 +1,33 @@
 <template>
-	<view>
-		<view>
-			explore
-		</view>
-	</view>
+	<view class="page">explore</view>
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
-				
+
 			}
 		},
-		onLoad(){
+		onLoad() {
 			const token = uni.getStorageSync("token")
-			if(token != ''){
+			if (token != '') {
 				console.log(token)
 				uni.switchTab({
-					url:"/pages/my/my"
+					url: "/pages/my/my"
 				})
-			}else{
+			} else {
 				uni.navigateTo({
-					url:"/pages/my/login/login"
+					url: "/pages/my/login/login"
 				})
 			}
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
 
-<style>
-
+<style lang="scss">
+	
 </style>
