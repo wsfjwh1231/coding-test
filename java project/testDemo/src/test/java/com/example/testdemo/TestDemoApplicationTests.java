@@ -1,14 +1,12 @@
 package com.example.testdemo;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.example.testdemo.bean.DemoObject;
+import com.example.testdemo.test.DemoObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Collections;
 
 @SpringBootTest
 class TestDemoApplicationTests {
@@ -18,15 +16,11 @@ class TestDemoApplicationTests {
 
     @Test
     void contextLoads() {
-        String url = "jdbc:mysql://localhost:3306/webstore";
-        String username = "root";
-        String password = "123456";
         String[] tables = {"address","banner","brand","category","channel", "comment", "commentpic",
                 "coupon", "goods","goodsadtion","goodscard", "goodsgallery", "introduceinfo",
                 "issue","products","querytable","specifications","topic","user", "users"};
         //数据源配置
-        FastAutoGenerator.create(url, username, password)
-
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/webstore", "root", "123456")
                 //全局配置
                 .globalConfig(builder -> {
                     // 设置作者
@@ -36,7 +30,9 @@ class TestDemoApplicationTests {
                             // 覆盖已生成文件
 //                            .fileOverride()
                             // 指定输出目录
-                            .outputDir("D:\\java\\testDemo\\src\\main\\java");
+                            .outputDir("D:\\java\\testDemo\\src\\main\\java")
+                            // 注释日期
+                            .commentDate("yyyy-MM-dd");
                 })
 
                 //包配置
@@ -50,8 +46,12 @@ class TestDemoApplicationTests {
                     //遍历所有表名
                     for (String table1 : tables) {
                         builder.addInclude(table1)
+
                                 // 设置过滤表前缀
-                                .addTablePrefix("t_");
+                                .addTablePrefix("t_")
+                                //使用Lombok
+                                .entityBuilder().enableLombok();
+
                     }
 
                 })
@@ -66,9 +66,6 @@ class TestDemoApplicationTests {
 //  切面测试类
     @Test void aopTest() {
         demoObject.run();
-
-
-
     }
 
 }

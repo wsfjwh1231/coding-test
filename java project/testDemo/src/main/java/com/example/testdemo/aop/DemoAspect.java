@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component//纳入spring容器
 @Aspect//声明为切面类
 public class DemoAspect {
-    @Pointcut("execution(* com.example.testdemo.bean.DemoObject.run(..))")
+    @Pointcut("execution(* com.example.testdemo.test.DemoObject.run(..))")
     private void cut() {};
 
     @Before("cut()")

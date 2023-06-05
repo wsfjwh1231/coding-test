@@ -1,6 +1,8 @@
-package com.example.testdemo.bean;
+package com.example.testdemo.test;
 
 import lombok.Data;
+
+
 
 @Data
 public class Result {

@@ -1,6 +1,7 @@
 package com.example.testdemo.utils;
 
-import com.example.testdemo.bean.Result;
+
+import com.example.testdemo.test.Result;
 
 public class RestUtils {
     public static Result success(Object data){
