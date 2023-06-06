@@ -17,4 +17,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+
+    @Override
+    public void login() {
+        System.out.println("用户登录开始");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("用户登录结束");
+    }
+
+    @Override
+    public void register() {
+        System.out.println("用户注册开始");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("用户注册结束");
+    }
 }

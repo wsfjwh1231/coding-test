@@ -3,8 +3,13 @@ server:
 
 spring:
   datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/webdb
+    username: admin
+    password: LIUGANGlz_2
+    url: jdbc:mysql://202.103.238.135:12098/webstore
     driverClassName: com.mysql.cj.jdbc.Driver
+#  datasource:
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://localhost:3306/webdb
+#    driverClassName: com.mysql.cj.jdbc.Driver
 
