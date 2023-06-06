@@ -83,12 +83,27 @@ public class DemoAspect {
         //检查传入的token是否为空或者是否以"Bearer "开头。如果不是，抛出一个运行时异常。
         if (token == null || !token.startsWith("Bearer ")) throw new RuntimeException("Invalid or missing token");
         try {
-//          使用parseToken方法解析传入的token，并将解析后的JWT对象存储在HttpServletRequest对象的"claims"属性中。如果解析失败，抛出一个运行时异常。
+//          将解析后的JWT对象存储在HttpServletRequest对象的"claims"属性中。如果解析失败，抛出一个运行时异常。
             request.setAttribute("claims", JWTUtil.verify(token.replace("Bearer ", ""), Jwtutils.SECRET_KEY.getBytes()));
-            System.out.println("test： "+JWTUtil.verify(token.replace("Bearer ", ""), Jwtutils.SECRET_KEY.getBytes()));
+
+            System.out.println("test： "+JWTUtil.verify(token.replace("Bearer ", ""), Jwtutils.SECRET_KEY.getBytes()));//true
+
         } catch (RuntimeException run) {
             throw new CustomException(RestUtils.error("未登录或登录超时"));
-
         }
+
+
+        // 解析用户权限信息
+//        JWTClaimsSet claimsSet = jwt.getJWTClaimsSet();
+//        List<String> roles = claimsSet.getStringListClaim("roles");
+//        List<String> permissions = claimsSet.getStringListClaim("permissions");
+//
+//        // 存储用户权限信息
+//        Authority authority = new Authority();
+//        authority.setRoles(roles);
+//        authority.setPermissions(permissions);
+//
+//        // 将用户权限信息存储到当前请求上下文中
+//        request.setAttribute("authority", authority);
     }
 }
