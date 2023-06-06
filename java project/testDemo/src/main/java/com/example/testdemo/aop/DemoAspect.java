@@ -75,7 +75,7 @@ public class DemoAspect {
 
 //    HTTP请求头中获取JWT，对其进行解码和验证，并将解码后的JWT对象存储在HttpServletRequest对象中，以便在后续的请求处理中使用。
     @Before("protectedResources()")
-    public void authenticate() {
+    public void authenticate() throws Exception {
 //        从当前上下文中获取HTTP请求并将其转换为HttpServletRequest对象，以便在接下来的代码中使用。
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //        从HTTP请求头中获取Authorization头的值，该值包含JWT字符串。
@@ -83,13 +83,14 @@ public class DemoAspect {
         //检查传入的token是否为空或者是否以"Bearer "开头。如果不是，抛出一个运行时异常。
         if (token == null || !token.startsWith("Bearer ")) throw new RuntimeException("Invalid or missing token");
         try {
-//          将解析后的JWT对象存储在HttpServletRequest对象的"claims"属性中。如果解析失败，抛出一个运行时异常。
+//          将解析后的JWT对象存储在HttpServletRequest对象的"claims"属性中。如果解析失败，抛出一个异常。
             request.setAttribute("claims", JWTUtil.verify(token.replace("Bearer ", ""), Jwtutils.SECRET_KEY.getBytes()));
 
             System.out.println("test： "+JWTUtil.verify(token.replace("Bearer ", ""), Jwtutils.SECRET_KEY.getBytes()));//true
 
-        } catch (RuntimeException run) {
-            throw new CustomException(RestUtils.error("未登录或登录超时"));
+//            别想着自定义异常，时间不够
+        } catch (Exception run) {
+            throw new Exception("Token validation failed");
         }
 
 
