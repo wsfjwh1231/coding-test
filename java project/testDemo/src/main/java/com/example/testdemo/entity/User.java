@@ -19,7 +19,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ApiModel(value = "User对象", description = "")
+@ApiModel(description = "用户实体类")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class User implements Serializable {
     @ApiModelProperty("最后登录IP")
     private String lastloginip;
 
-    @ApiModelProperty("用户级别")
+    @ApiModelProperty(value = "用户级别",example = "1")
     private Integer userlevel;
 
     @ApiModelProperty("昵称")
@@ -63,6 +63,7 @@ public class User implements Serializable {
     private LocalDateTime updatetime;
 
     private Boolean deleted;
+
 
 
 }

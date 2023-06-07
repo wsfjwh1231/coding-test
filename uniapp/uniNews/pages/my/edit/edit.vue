@@ -71,8 +71,15 @@
 									if(res.data.code == 200){
 										//重新获取用户信息
 										uni.setStorageSync("user",res.data.user)
+										uni.showToast({
+											title:"修改成功"
+										})
+										
 									}else{
 										console.log(res.data.code)
+										uni.showToast({
+											title:"修改失败"
+										})
 									}
 								}
 							})

@@ -69,6 +69,7 @@ public class DemoAspect {
 
 //    ==============================================================基于Hutool-jwt包的 token鉴权开始 ==============================================================
     @Pointcut("execution( * com.example.testdemo.controller.*.*(..)) &&"
+            + " !execution(* com.example.testdemo.controller.UserController.login(..))"
             + " !execution(* com.example.testdemo.controller.UserController.login(..))")
     public void protectedResources() {
     }
