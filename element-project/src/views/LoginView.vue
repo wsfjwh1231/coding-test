@@ -81,7 +81,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$http({
-            url: "http://127.0.0.1:9998/login",
+            url: "http://127.0.0.1:9998//weburl/user/login",
             method: "post",
             data: {
               username: this.ruleForm.userName,

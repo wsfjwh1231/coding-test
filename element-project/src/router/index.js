@@ -30,7 +30,6 @@ const routes = [
         meta: {
           title: "商品列表"
         },
-
       },
       {
         path: '/statitistic',
