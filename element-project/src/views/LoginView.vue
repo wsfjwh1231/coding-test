@@ -96,7 +96,7 @@ export default {
                 console.log(res.data.data)
                 this.$store.commit("setUser",res.data.data)
                 this.$message.success("登录成功");
-                this.$router.push({ name: "home" });
+                this.$router.push({ name: "Home" });
               } else {
                 this.$message.error(res.data.msg);
               }
@@ -163,7 +163,6 @@ export default {
       color: #409eff;
       font-weight: 700;
       font-size: 50px;
-      //   text-align: center;
       padding: 20px 0;
     }
     ::v-deep .el-form-item__content {

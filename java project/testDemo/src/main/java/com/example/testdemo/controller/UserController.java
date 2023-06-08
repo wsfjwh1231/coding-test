@@ -45,7 +45,7 @@ public class UserController {
     })
     @ApiOperation(value = "用户登录",notes = "提供用户名和密码，返回用户信息和token。注意，此接口需要提供以下请求头参数：Authorization：（访问令牌）")
     @GetMapping("/login")
-    public Result login(@ApiParam(value = "用户名",required = true,example = "username") @RequestParam("myId") String username,
+    public Result login(@ApiParam(value = "用户名",required = true,example = "username") @RequestParam String username,
                         @ApiParam(value = "密码",required = true,example = "password") @RequestParam String password,
                         @ApiParam(value = "备注",example = "beizhu") @RequestParam(required = false) String beizhu) {
         userService.login();
