@@ -66,7 +66,7 @@
 							localStorage.setItem("pc-user",JSON.stringify(res.data.user));
 							localStorage.setItem("pc-token", res.data.token);
 							console.log(localStorage.getItem("pc-user"))
-							this.$router.push('/home')
+							this.$router.push('/index')
 						}, 1000);
 					} else {
 
