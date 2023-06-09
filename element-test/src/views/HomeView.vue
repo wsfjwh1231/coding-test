@@ -93,7 +93,7 @@
 			justify-content: space-between;
 			align-items: center;
 			padding: 10px 0;
-			border-bottom: 1px solid gray;
+			border-bottom: 1px solid lightgray;
 
 			.rightIcon {
 				display: flex;

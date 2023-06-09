@@ -41,27 +41,27 @@
 			<div class="toDoList">
 				<div class="toDoItem">
 					<div class="toDoText">已取消订单</div>
-					<div class="toDoNum">(0)</div>
+					<div class="toDoNum">({{orderInfo.canceled}})</div>
 				</div>
 				<div class="toDoItem">
 					<div class="toDoText">待付款订单</div>
-					<div class="toDoNum">(0)</div>
+					<div class="toDoNum">({{orderInfo.pending}})</div>
 				</div>
 				<div class="toDoItem">
 					<div class="toDoText">待发货订单</div>
-					<div class="toDoNum">(0)</div>
+					<div class="toDoNum">({{orderInfo.shipped}})</div>
 				</div>
 				<div class="toDoItem">
 					<div class="toDoText">待确认收获订单</div>
-					<div class="toDoNum">(0)</div>
+					<div class="toDoNum">({{orderInfo.received}})</div>
 				</div>
 				<div class="toDoItem">
 					<div class="toDoText">待评价订单</div>
-					<div class="toDoNum">(0)</div>
+					<div class="toDoNum">({{orderInfo.evaluated}})</div>
 				</div>
 				<div class="toDoItem">
 					<div class="toDoText">已完成订单</div>
-					<div class="toDoNum">(0)</div>
+					<div class="toDoNum">({{orderInfo.finished}})</div>
 				</div>
 			</div>
 		</div>
@@ -111,8 +111,8 @@
 			width: 1000px;
 
 			.numberItem {
-				border: 1px solid gray;
-				padding: 20px;
+				border: 1px solid lightgray;
+				padding: 20px 60px;
 				display: flex;
 				align-items: center;
 				margin: 20px 0;
@@ -136,7 +136,7 @@
 			
 			.top{
 				font-size: 20px;
-				border-bottom: 1px solid gray;
+				border-bottom: 1px solid lightgray;
 				padding: 5px 0;
 			}
 			
@@ -147,15 +147,17 @@
 				flex-wrap: wrap;
 				margin-top: 10px;
 				.toDoItem{
-					
 					display: flex;
 					justify-content: space-between;
 					width: 280px;
 					font-size: 15px;
-					border-bottom: 1px solid gray;
+					border-bottom: 1px solid lightgray;
 					padding: 15px;
 					.toDoText{
 						margin-right: 100px;
+					}
+					.toDoNum{
+						color: red;
 					}
 				}
 			}
