@@ -9,6 +9,8 @@ import com.example.testdemo.test.Result;
 import com.example.testdemo.utils.Jwtutils;
 import com.example.testdemo.utils.RestUtils;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+
 //  用户登录
 
     @ApiImplicitParams({
@@ -38,33 +41,7 @@ public class UserController {
             @ApiImplicitParam(name = "X-Request-ID", value = "请求ID", dataType = "string", paramType = "header", required = false, example = "12345678")
     })
     @ApiResponses({
-            @ApiResponse(code = 200, message = "成功", response = Result.class, examples = @Example({
-                    @ExampleProperty(value = "{\n" +
-                            "  \"code\": 200,\n" +
-                            "  \"msg\": \"success\",\n" +
-                            "  \"data\": {\n" +
-                            "    \"token\": \"BearereyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiLkuInlvKAiLCJleHBpcmVfdGltZSI6MTY4NjIzNTY4ODYzMn0.7HUVXZI-HG1i7NUhBBzUOxoqkOC8LQJAnHm4KwJPZRU\",\n" +
-                            "    \"object\": {\n" +
-                            "      \"id\": null,\n" +
-                            "      \"username\": \"三张\",\n" +
-                            "      \"password\": null,\n" +
-                            "      \"gender\": null,\n" +
-                            "      \"lastlogintime\": null,\n" +
-                            "      \"lastloginip\": null,\n" +
-                            "      \"userlevel\": null,\n" +
-                            "      \"nickname\": null,\n" +
-                            "      \"mobile\": null,\n" +
-                            "      \"avatar\": null,\n" +
-                            "      \"weixinopenid\": null,\n" +
-                            "      \"sessionkey\": null,\n" +
-                            "      \"status\": null,\n" +
-                            "      \"addtime\": null,\n" +
-                            "      \"updatetime\": null,\n" +
-                            "      \"deleted\": null\n" +
-                            "    }\n" +
-                            "  }\n" +
-                            "}")
-            })),
+            @ApiResponse(code = 200, message = "成功") ,
             @ApiResponse(code = 400,message = "参数错误"),
             @ApiResponse(code = 401,message = "未授权"),
             @ApiResponse(code = 403,message = "禁止访问"),
@@ -78,19 +55,13 @@ public class UserController {
                         @ApiParam(value = "备注",example = "beizhu") @RequestParam(required = false) String beizhu) {
         userService.login();
         userService.register();
-        // 在这里验证用户名和密码，这里只是示例，所以没有实际的验证逻辑
-        String token = Jwtutils.generateToken("三张");
-        JWT jwt = JWTUtil.parseToken(token);
-
-        //解析JWT 读取校验数据
-        System.out.println(jwt.getHeader(JWTHeader.TYPE));
-        System.out.println(jwt.getPayload("uid"));
-        System.out.println(jwt.getPayload("expire_time"));
+        // 生成token
+        String token = Jwtutils.generateToken("三张",1);
 
         User user = new User();
         user.setUsername("三张");
         Map<String,Object> map = new HashMap<>();
-        map.put("token","Bearer"+token);
+        map.put("token",token);
         map.put("object", user);
 
         return RestUtils.success(map);
@@ -98,13 +69,13 @@ public class UserController {
 
 //    测试token是否有效
     @GetMapping("/protected")
-    public String protectedResource() {
-        return "This is a protected resource";
+    public Result protectedResource() {
+        return RestUtils.success();
     }
 
-//    JWT解析
+//    注册
     @GetMapping("/token/{token}")
     public Result parse(@PathVariable String token) {
-        return RestUtils.success(Jwtutils.parseToken(token));
+        return RestUtils.success();
     }
 }

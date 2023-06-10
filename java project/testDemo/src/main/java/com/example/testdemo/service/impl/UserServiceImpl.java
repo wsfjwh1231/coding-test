@@ -22,7 +22,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public void login() {
         System.out.println("用户登录开始");
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -33,7 +33,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public void register() {
         System.out.println("用户注册开始");
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
