@@ -1,6 +1,5 @@
 package com.example.testdemo.test;
 
-import com.example.testdemo.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

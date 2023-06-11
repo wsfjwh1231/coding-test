@@ -13,7 +13,7 @@ import java.util.Map;
 public class Jwtutils {
     public static final String SECRET_KEY = "your_secret_key";
     // 计算24小时的毫秒数。1000 毫秒（1 秒）* 60（1 分钟）* 60（1 小时）* 24（1 天
-    private static final long EXPIRATION_TIME = 1000 * 10;
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 1;
 
     public static String generateToken(String username,int isAdmin) {
 
