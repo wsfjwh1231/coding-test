@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -19,6 +22,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@TableName("goodscard")
 @ApiModel(value = "Goodscard对象", description = "购物车")
 public class Goodscard implements Serializable {
 

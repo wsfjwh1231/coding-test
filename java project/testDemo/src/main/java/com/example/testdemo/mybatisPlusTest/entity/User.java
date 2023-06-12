@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -20,6 +22,7 @@ import lombok.*;
  * @since 2023-06-05
  */
 @Data
+//@Accessors(chain = true)
 @TableName("user")
 @ApiModel(value = "User",description = "用户实体类")
 public class User implements Serializable {
@@ -65,6 +68,9 @@ public class User implements Serializable {
     private LocalDateTime updatetime;
 
     private Boolean deleted;
+
+
+    private List<Goodscard> goodscardList;
 
 
 

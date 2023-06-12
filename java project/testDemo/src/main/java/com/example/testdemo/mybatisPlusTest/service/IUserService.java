@@ -22,4 +22,10 @@ public interface IUserService extends IService<User> {
 
     IPage<User> selectUserPage(IPage<User> page);
 
+    User selectUserByUsername(String username);
+
+    User selectUserAndGoodscardList(String username);
+
+
+
 }

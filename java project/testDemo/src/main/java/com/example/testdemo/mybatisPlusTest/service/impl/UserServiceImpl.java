@@ -51,4 +51,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return userMapper.selectPage(page, null);
     }
 
+    @Override
+    public User selectUserByUsername(String username) {
+        return userMapper.selectUserByName(username);
+    }
+
+    @Override
+    public User selectUserAndGoodscardList(String username) {
+        return userMapper.selectUserAndGoodscardList(username);
+    }
+
 }

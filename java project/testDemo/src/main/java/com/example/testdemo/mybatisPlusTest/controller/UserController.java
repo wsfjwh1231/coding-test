@@ -2,15 +2,20 @@ package com.example.testdemo.mybatisPlusTest.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.testdemo.mybatisPlusTest.entity.Goodscard;
 import com.example.testdemo.mybatisPlusTest.entity.User;
+import com.example.testdemo.mybatisPlusTest.service.IGoodscardService;
 import com.example.testdemo.mybatisPlusTest.service.IUserService;
 import com.example.testdemo.test.Result;
 import com.example.testdemo.utils.Category;
 import com.example.testdemo.utils.Jwtutils;
 import com.example.testdemo.utils.RestUtils;
 import io.swagger.annotations.*;
+import net.sf.jsqlparser.expression.JsonAggregateUniqueKeysType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +39,9 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IGoodscardService goodscardService;
 
 
 //  用户登录
@@ -119,6 +127,7 @@ public class UserController {
 
         userList.add(user);
         userList.add(user1);
+//        新增两个用户 测试用
         boolean saveFlag = userService.saveBatch(userList);
         if (saveFlag) {
             System.out.println("添加成功");
@@ -163,9 +172,26 @@ public class UserController {
 
     //查找用户
     @GetMapping("/select")
-    public Result select() {
-        Page<User> page = new Page<>(2,3);
-        IPage<User> userIPage = userService.selectUserPage(page);
-        return RestUtils.success(userIPage);
+    public Result select(int pageNo,int pageSize){
+        //分页查找所有用户
+//        Page<User> page = new Page<>(2,3);
+//        IPage<User> userIPage = userService.selectUserPage(page);
+
+        //根据ID查找单个用户
+//        User user = userService.getById(4);
+
+//        根据用户名查找用户
+//        User user = userService.selectUserByUsername("unjq2w26og");
+
+//      一对多关系查询
+//        User user = userService.selectUserAndGoodscardList("sophie");
+
+//      自定义条件查询加 分页  ！！！！！！！！！！！！ 要进行两次查询，才能得到数据总数
+
+        pageNo = (pageNo-1) * pageSize;//计算页数的公式
+        List<Goodscard> goodscardList = goodscardService.selectGoodscardByUserIdAndProductId(1, 2,pageNo,pageSize);
+        System.out.println(goodscardService.selectGoodscardNum(1,2));//数据总数
+
+        return RestUtils.success(goodscardList);
     }
 }

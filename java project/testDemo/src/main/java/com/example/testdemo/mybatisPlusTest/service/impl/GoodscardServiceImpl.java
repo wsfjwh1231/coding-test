@@ -4,7 +4,11 @@ import com.example.testdemo.mybatisPlusTest.entity.Goodscard;
 import com.example.testdemo.mybatisPlusTest.mapper.GoodscardMapper;
 import com.example.testdemo.mybatisPlusTest.service.IGoodscardService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +21,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoodscardServiceImpl extends ServiceImpl<GoodscardMapper, Goodscard> implements IGoodscardService {
 
+    @Resource
+    GoodscardMapper goodscardMapper;
+
+    @Override
+    public int selectGoodscardNum(int userId, int productId) {
+
+        return goodscardMapper.selectCountNum(userId,productId);
+    }
+
+    @Override
+    public List<Goodscard> selectGoodscardByUserIdAndProductId(int userId, int productId,int pageNo,int pageSize) {
+
+        return goodscardMapper.selectGoodscardByUserIdAndProductId(userId, productId,pageNo,pageSize);
+    }
 }
