@@ -75,10 +75,29 @@ const routes = [
 				meta: {
 					title: "首页"
 				}
-			}
+			},
+			{
+				path: '/updateProductList',
+				name: 'updateProductList',
+			
+				component: () => import('../views/updateProductListView.vue'),
+				meta: {
+					title: "修改商品"
+				}
+			},
+			{
+				path: '/addProductList',
+				name: 'addProductList',
+			
+				component: () => import('../views/addProductListView.vue'),
+				meta: {
+					title: "添加商品"
+				}
+			},
 
 		]
 	},
+
 	{
 		path: '/about',
 		name: 'about',
