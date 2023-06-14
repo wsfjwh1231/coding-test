@@ -91,11 +91,12 @@
 			},
 			// 跳转到添加界面
 			toAddPage(){
-				this.$router.push("/addProductList?id=44")
+				this.$router.push("/addProductList")
 			},
 			// 跳转到编辑界面
-			toUpdatePage(){
-				this.$router.push("/updateProductList?id=33")
+			toUpdatePage(index,row){
+				localStorage.setItem("productList",JSON.stringify(row));
+				this.$router.push("/updateProductList")
 			},
 			// 删除按钮
 			delBtn(index, row) {

@@ -41,7 +41,7 @@ const routes = [
 				component: () => import('../views/ProductListView.vue'),
 				meta: {
 					title: "商品列表"
-				},
+				}
 
 			},
 			{

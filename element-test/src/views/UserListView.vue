@@ -11,7 +11,7 @@
 			<el-button @click="searchBtn">搜索</el-button>
 		</div>
 
-		<el-table :data="tableData" style="width: 100%;margin-top: 20px;">
+		<el-table :data="tableData" style="width: 100%;margin-top: 20px;" border="">
 			<el-table-column label="编号" width="500">
 				<template slot-scope="scope">
 					<i class="el-icon-time"></i>

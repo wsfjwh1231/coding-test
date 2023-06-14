@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-table :data="tableData" style="width: 100%;margin-top: 20px;text-align: ;">
+		<el-table :data="tableData" style="width: 100%;margin-top: 20px;text-align: ;" border="">
 			<el-table-column label="订单编号" width="300">
 				<template slot-scope="scope">
 					<i class="el-icon-time"></i>
