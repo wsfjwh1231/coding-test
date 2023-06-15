@@ -94,6 +94,61 @@ const routes = [
 					title: "添加商品"
 				}
 			},
+			{
+				path: '/addCategory',
+				name: 'addCategory',
+			
+				component: () => import('../views/addCategoryView.vue'),
+				meta: {
+					title: "添加分类"
+				}
+			},
+			{
+				path: '/updateCategory',
+				name: 'updateCategory',
+			
+				component: () => import('../views/updateCategoryView.vue'),
+				meta: {
+					title: "修改分类"
+				}
+			},
+			{
+				path: '/test1',
+				name: 'test1',
+			
+				component: () => import('../views/test/TestView1.vue'),
+				meta: {
+					title: "测试界面1"
+				}
+			},
+			{
+				path: '/test2',
+				name: 'test2',
+			
+				component: () => import('../views/test/TestView2.vue'),
+				meta: {
+					title: "测试界面2"
+				}
+			},
+			{
+				path: '/test3',
+				name: 'test3',
+			
+				component: () => import('../views/test/TestView3.vue'),
+				meta: {
+					title: "测试界面3"
+				}
+			},
+			{
+				path: '/test4',
+				name: 'test4',
+			
+				component: () => import('../views/test/TestView4.vue'),
+				meta: {
+					title: "测试界面4"
+				}
+			},
+			
 
 		]
 	},

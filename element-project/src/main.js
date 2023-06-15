@@ -16,7 +16,6 @@ Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
-Vue.config.productionTip = false
 
 new Vue({
   router,

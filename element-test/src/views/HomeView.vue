@@ -18,6 +18,10 @@
 							<el-menu-item index="/specification">商品规格</el-menu-item>
 							<el-menu-item index="/productList">商品列表</el-menu-item>
 							<el-menu-item index="/statistics">数据统计</el-menu-item>
+							<el-menu-item index="/test1">测试界面1</el-menu-item>
+							<el-menu-item index="/test2">测试界面2</el-menu-item>
+							<el-menu-item index="/test3">测试界面3</el-menu-item>
+							<el-menu-item index="/test4">测试界面4</el-menu-item>
 						</el-menu-item-group>
 					</el-submenu>
 					<el-menu-item index="/orderManagement">

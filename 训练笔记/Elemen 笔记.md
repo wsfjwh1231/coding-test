@@ -90,3 +90,16 @@ mounted(){
   </el-main>
 </el-container>
 ```
+
+
+#### select选择，不要更改v-model的字段，否则会出现问题
+#### 将value的值绑定到v-model上，这样就可以实现选择后，v-model的值就是value的值
+```html
+<el-select v-model="selectItem" placeholder="请选择上级分类">
+<el-option label="无上级分类" :value="100" :key="100"></el-option>
+  <el-option :label="item.catName" :value="item.catId" v-for="(item,index) in selectData" :key="item.catId"></el-option>
+</el-select>
+```
+
+#### <el-input> 组件的 v-model.number 指令意味着当用户在该输入框中输入数值时，Vue.js 会自动将其转换为数值类型
+<el-input v-model.number="ruleForm.age"></el-input>

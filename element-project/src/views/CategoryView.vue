@@ -73,7 +73,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "ElementProjectCategoryView",
+  name: "CategoryView",
 
   data() {
     return {
