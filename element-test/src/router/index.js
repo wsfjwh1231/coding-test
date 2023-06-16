@@ -118,7 +118,7 @@ const routes = [
 			
 				component: () => import('../views/test/TestView1.vue'),
 				meta: {
-					title: "测试界面1"
+					title: "layout布局"
 				}
 			},
 			{
