@@ -1,5 +1,6 @@
 package com.example.testdemo.mybatisPlusTest.controller;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -15,14 +16,20 @@ import com.example.testdemo.utils.Category;
 import com.example.testdemo.utils.Jwtutils;
 import com.example.testdemo.utils.RestUtils;
 import io.swagger.annotations.*;
-import net.sf.jsqlparser.expression.JsonAggregateUniqueKeysType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * <p>
@@ -42,6 +49,13 @@ public class UserController {
 
     @Autowired
     private IGoodscardService goodscardService;
+
+    @Value("${spring.servlet.multipart.location}")
+    private String path;
+
+    @Resource
+    private ResourceLoader resourceLoader;
+
 
 
 //  用户登录
@@ -70,7 +84,8 @@ public class UserController {
 //       密码 md5加密
         String testStr = "5393554e94bf0eb6436f240a4fd71282";
         String md5Hex1 = DigestUtil.md5Hex(testStr);
-
+        String url = "C:\\Users\\admin\\Desktop";
+        String jsUrl = url.replace("\\", "/");
         userService.register();
         List<User> userList = userService.login();
         User user = new User();
@@ -80,6 +95,7 @@ public class UserController {
         map.put("object", user);
         map.put("list", userList);
         map.put("md5",md5Hex1);
+        map.put("url",jsUrl);
 
         return RestUtils.success(map);
     }
@@ -193,5 +209,32 @@ public class UserController {
         System.out.println(goodscardService.selectGoodscardNum(1,2));//数据总数
 
         return RestUtils.success(goodscardList);
+    }
+
+//    上传文件
+    @PostMapping("upFile")
+    public Result upFile(@RequestParam("file") MultipartFile multipartFile) throws URISyntaxException {
+
+        try {
+            Map<String,Object> map  = new HashMap<>();
+            String fileName = multipartFile.getOriginalFilename();
+            //获取原始文件后缀名
+            String suffix = Objects.requireNonNull(fileName).substring(fileName.lastIndexOf("."));
+            //新文件名
+            String newName = IdUtil.randomUUID() + suffix;
+            String newPath = path + newName;
+
+
+            File file = new File(newPath);
+
+            multipartFile.transferTo(file);
+
+
+            return RestUtils.success(newName);
+        } catch (IOException e) {
+            return RestUtils.error();
+        }
+
+
     }
 }

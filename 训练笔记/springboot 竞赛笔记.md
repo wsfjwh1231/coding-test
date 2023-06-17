@@ -83,4 +83,11 @@ mybatis-plus:
 
 
 
-#### 有Where的查询在Mapper里面实现，没有Where的查询在Service里面实现
+#### 有Where的查询在Mapper里面实现，没有Where的查询在Service里面实现  
+---
+
+#### 路径转义后返回给前端
+```java
+String url = "C:\\Users\\admin\\Desktop";
+String jsUrl = url.replace("\\", "/");
+```

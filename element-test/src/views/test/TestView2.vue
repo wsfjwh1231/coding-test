@@ -140,7 +140,7 @@
 			}
 		},
 		mounted() {
-			this.restaurants = this.loadAll();
+			this.loadAll();
 		},
 		methods: {
 			test(radio) {
@@ -166,31 +166,32 @@
 			},
 
 
-// -------------------------------------------------------------------------------------------------------------------------------------------
-			// 查询商品列表
+			// -------------------------------------------------------------------------------------------------------------------------------------------
+			// 查询用户列表
 			loadAll() {
 				axios({
-					url:"http://101.34.49.100:3001/product/productList",
-					method:"GET"
+					url: "http://101.34.49.100:3001/user/userList",
+					method: "GET"
 				}).then(res => {
 					console.log(res.data)
+					this.restaurants = res.data.list
 				})
 			},
 			querySearchAsync(queryString, cb) {
 				console.log(queryString)
-				// console.log(cb)
-				// restaurants默认为空数组
-				var restaurants = this.restaurants;
-				// 用户输入内容 如果输入内容不为空，则搜索，否则返回空数组
-				var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
-				
-				
-				
-				
-				console.log(results)
-				console.log(cb(results))
-				// cb：回调函数 返回搜索结果数组
-				cb(results);
+
+				axios({
+					url: 'http://101.34.49.100:3001/user/searchByUsername?searchText=' + queryString,
+					method:"GET"
+				}).then(res =>{
+					console.log(res.data)
+					// 将搜索结果存储到 restaurants 数组中
+					this.restaurants = res.data.list;
+					console.log(this.restaurants)
+					// 调用回调函数，将搜索结果传递给 <el-autocomplete>
+					cb(this.restaurants);
+				})
+
 			},
 			createStateFilter(queryString) {
 				console.log(state)

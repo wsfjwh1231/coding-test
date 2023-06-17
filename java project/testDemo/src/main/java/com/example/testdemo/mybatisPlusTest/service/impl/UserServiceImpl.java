@@ -27,8 +27,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public List<User> login() {
         System.out.println("用户登录开始");
-//        userMapper.selectUserList();
-        List<User> userList = userMapper.selectList(null);
+        List<User> userList = userMapper.selectUserList();
+//         userMapper.selectList(null);
         try {
             Thread.sleep(1000);
 

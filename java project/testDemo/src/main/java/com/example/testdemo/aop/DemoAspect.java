@@ -23,13 +23,6 @@ public class DemoAspect {
     private static final Logger logger = LoggerFactory.getLogger(DemoAspect.class);
 
 
-//    ==============================================================基于Hutool-jwt包的 token鉴权开始 ==============================================================
-//    @Pointcut("execution( * com.example.testdemo.controller.*.*(..)) &&"
-//            + " !execution(* com.example.testdemo.controller.UserController.login(..))")
-//    public void protectedResources() {
-//    }
-
-//    @Around("protectedResources()")
     @Around("@annotation(com.example.testdemo.utils.Category)")
     public Result authenticate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 

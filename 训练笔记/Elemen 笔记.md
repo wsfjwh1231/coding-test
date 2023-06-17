@@ -240,3 +240,73 @@ getBar() {
 </el-autocomplete>
 
 ```
+
+#### 计数器
+
+```html
+<!-- 计数器 -->
+		<el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"
+			:disabled="false"></el-input-number>
+```
+
+#### 选择器
+```html
+<!-- 选择器 inactive-color：未选中颜色；active-text: 按月付费  -->
+<el-switch
+  v-model="value"
+  active-color="#13ce66"
+  inactive-color="#ff4949"
+  @change="selectItem">
+</el-switch>
+
+<el-switch
+  v-model="value1"
+  active-text="按月付费"
+  inactive-text="按年付费">
+</el-switch>
+```
+
+#### Slider 滑块
+```html
+<div class="block">
+			<span class="demonstration">自定义初始值</span>
+			<el-slider v-model="value2" style="width: 40%;" @change="selectItem"></el-slider>
+		</div>
+```
+
+#### 时间选择器
+
+
+#### 日期选择器
+
+
+#### 分页
+
+```html
+<!-- prev表示上一页，next为下一页，pager表示页码列表，total表示总条目数，sizes用于设置每页显示的页码数量。  -->
+<!-- current-change获取页码，page-size每页显示数据条数-->
+<el-pagination
+  background
+  layout="prev, pager, next"
+  @current-change="getUserPage"
+  :total="total"
+  :page-size="size">
+</el-pagination>
+```
+
+#### Badge 标记(出现在按钮、图标旁的数字或状态标记。)
+
+```html
+<!-- value数据数量，type颜色主题 -->
+<el-badge :value="value2" :max="20" class="item" type="primary">
+		  <el-button size="small">评论</el-button>
+</el-badge>
+```
+
+#### Empty 空状态 用作空白界面和无数据业务时显示
+```html
+<el-empty description="描述文字"></el-empty>
+```
+
+
+#### 进度条 有圆条，有长条

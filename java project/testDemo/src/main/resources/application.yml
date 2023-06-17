@@ -1,7 +1,11 @@
 server:
-  port: 8099
+  port: 8098
 
 spring:
+
+  servlet:
+    multipart:
+      location: D:\img\
 
 #  datasource:
 #    username: admin

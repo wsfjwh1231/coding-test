@@ -76,11 +76,13 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         try {
             String fileName = multipartFile.getOriginalFilename();
-            String suffix = Objects.requireNonNull(fileName).substring((fileName.lastIndexOf(".")));
+            String suffix = Objects.requireNonNull(fileName).substring(fileName.lastIndexOf("."));
             String newName = UUID.randomUUID().toString() + suffix;
+            String newPath = path + newName;
             System.out.println(suffix);
             System.out.println(newName);
-            File file = new File(path + newName);
+
+            File file = new File(newPath);
             multipartFile.transferTo(file);
             File file1 = new File(ClassUtils.getDefaultClassLoader().getResource("").getPath());
             System.out.println("username ===== " + username);
