@@ -7,21 +7,23 @@ spring:
     multipart:
       location: D:\img\
 
-#  datasource:
-#    username: admin
-#    password: LIUGANGlz_2
-#    url: jdbc:mysql://202.103.238.135:12098/webstore
-#    driverClassName: com.mysql.cj.jdbc.Driver
+
   datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/webstore
+    username: admin
+    password: LIUGANGlz_2
+    url: jdbc:mysql://202.103.238.135:12098/webstore
     driverClassName: com.mysql.cj.jdbc.Driver
-    type: com.zaxxer.hikari.HikariDataSource
+#  datasource:
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://localhost:3306/webstore
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    type: com.zaxxer.hikari.HikariDataSource
 
 mybatis-plus:
   configuration:
     #日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
 

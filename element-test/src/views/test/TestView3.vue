@@ -1,8 +1,8 @@
 <template>
 	<div class="page">
 		<!-- 计算数器 -->
-		<el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"
-			:disabled="false"></el-input-number>
+		<el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字" :disabled="false">
+		</el-input-number>
 
 		<br />
 		<br />
@@ -27,16 +27,24 @@
 		<br />
 		<el-time-picker v-model="value3" :picker-options="{
 		      selectableRange: '18:30:00 - 20:30:00'
-		    }" placeholder="任意时间点"
-			@change="selectItem">
+		    }" placeholder="任意时间点" @change="selectItem">
 		</el-time-picker>
 		<br />
 		<br />
 		<el-badge :value="value2" :max="20" class="item" type="primary">
-		  <el-button size="small">评论</el-button>
+			<el-button size="small">评论</el-button>
 		</el-badge>
 		<el-empty description="描述文字"></el-empty>
 		<el-progress type="circle" :percentage="75"></el-progress>
+		<br />
+		<br />
+		<!-- 步骤条 -->
+		<el-steps :active="active" align-center>
+		  <el-step title="步骤1" description="这是一段很长很长很长的描述性文字"></el-step>
+		  <el-step title="步骤2" description="这是一段很长很长很长的描述性文字"></el-step>
+		  <el-step title="步骤3" description="这是一段很长很长很长的描述性文字"></el-step>
+		  <el-step title="步骤4" description="这是一段很长很长很长的描述性文字"></el-step>
+		</el-steps>
 	</div>
 </template>
 
@@ -49,7 +57,10 @@
 				value: "",
 				value1: false,
 				value2: 50,
-				value3: "new Date(2016, 9, 10, 18, 40)"
+				value3: "new Date(2016, 9, 10, 18, 40)",
+
+				// 步骤条
+				active: 4
 			}
 		},
 		methods: {
@@ -58,11 +69,20 @@
 			},
 			selectItem() {
 				console.log(this.value3)
+			},
+			next() {
+				console.log(this.active)
+				if (this.active++ > 2) this.active = 0;
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.page {}
+	.page {
+		::v-deep .el-steps {
+			// background-color: red;
+			width: 50%;
+		}
+	}
 </style>

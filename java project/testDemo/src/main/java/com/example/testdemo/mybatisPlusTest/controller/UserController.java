@@ -1,5 +1,6 @@
 package com.example.testdemo.mybatisPlusTest.controller;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
@@ -16,19 +17,26 @@ import com.example.testdemo.utils.Category;
 import com.example.testdemo.utils.Jwtutils;
 import com.example.testdemo.utils.RestUtils;
 import io.swagger.annotations.*;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.ClassUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -42,6 +50,7 @@ import java.util.*;
 @Api(tags = "用户管理")
 @RestController
 @RequestMapping("/user")
+@Validated
 public class UserController {
 
     @Autowired
@@ -62,7 +71,7 @@ public class UserController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "访问令牌", dataType = "string", paramType = "header", required = false, example = "Bearer your_token"),
+            @ApiImplicitParam(name = "token", value = "访问令牌", dataType = "string", paramType = "header", required = false, example = "Bearer your_token"),
             @ApiImplicitParam(name = "X-Request-ID", value = "请求ID", dataType = "string", paramType = "header", required = false, example = "12345678")
     })
     @ApiResponses({
@@ -86,7 +95,7 @@ public class UserController {
         String md5Hex1 = DigestUtil.md5Hex(testStr);
         String url = "C:\\Users\\admin\\Desktop";
         String jsUrl = url.replace("\\", "/");
-        userService.register();
+//        userService.register();
         List<User> userList = userService.login();
         User user = new User();
         user.setUsername("三张哥");
@@ -144,29 +153,32 @@ public class UserController {
         userList.add(user);
         userList.add(user1);
 //        新增两个用户 测试用
-        boolean saveFlag = userService.saveBatch(userList);
-        if (saveFlag) {
-            System.out.println("添加成功");
-        } else {
-            System.out.println("添加失败");
-        }
+//        boolean saveFlag = userService.saveBatch(userList);
+
+        int saveFlag = userService.register(user);
+        System.out.println(user.getId());
+//        if (saveFlag) {
+//            System.out.println("添加成功");
+//        } else {
+//            System.out.println("添加失败");
+//        }
         return RestUtils.success();
     }
 
 
 //    修改用户信息
     @PutMapping("/update")
-    public Result update() {
-        User user = new User();
-        user.setId(4);
-        user.setUsername("狗仔哥");
+    public Result update(@RequestBody @Valid User user) {
+//        User user = new User();
+//        user.setId(4);
+//        user.setUsername("狗仔哥");
         boolean updateFlag = userService.updateById(user);
         if (updateFlag) {
             System.out.println("更新成功");
         } else {
             System.out.println("更新失败");
         }
-        return RestUtils.success();
+        return RestUtils.success(user);
     }
 
     //    删除用户
@@ -188,13 +200,19 @@ public class UserController {
 
     //查找用户
     @GetMapping("/select")
-    public Result select(int pageNo,int pageSize){
+    public Result select(@Max(5) String pageNo,
+                         @Min(3) int  pageSize){
         //分页查找所有用户
 //        Page<User> page = new Page<>(2,3);
 //        IPage<User> userIPage = userService.selectUserPage(page);
 
         //根据ID查找单个用户
-//        User user = userService.getById(4);
+        User user = userService.getById(1);
+        Date date = new Date();
+//        生成时间
+        DateTime time = new DateTime(date);
+
+//        user.setUpdatetime();
 
 //        根据用户名查找用户
 //        User user = userService.selectUserByUsername("unjq2w26og");
@@ -204,16 +222,16 @@ public class UserController {
 
 //      自定义条件查询加 分页  ！！！！！！！！！！！！ 要进行两次查询，才能得到数据总数
 
-        pageNo = (pageNo-1) * pageSize;//计算页数的公式
-        List<Goodscard> goodscardList = goodscardService.selectGoodscardByUserIdAndProductId(1, 2,pageNo,pageSize);
-        System.out.println(goodscardService.selectGoodscardNum(1,2));//数据总数
+//        pageNo = (pageNo-1) * pageSize;//计算页数的公式
+//        List<Goodscard> goodscardList = goodscardService.selectGoodscardByUserIdAndProductId(1, 2,pageNo,pageSize);
+//        System.out.println(goodscardService.selectGoodscardNum(1,2));//数据总数
 
-        return RestUtils.success(goodscardList);
+        return RestUtils.success(time);
     }
 
 //    上传文件
     @PostMapping("upFile")
-    public Result upFile(@RequestParam("file") MultipartFile multipartFile) throws URISyntaxException {
+    public Result upFile(@RequestParam("file") MultipartFile multipartFile){
 
         try {
             Map<String,Object> map  = new HashMap<>();
@@ -229,8 +247,8 @@ public class UserController {
 
             multipartFile.transferTo(file);
 
-
-            return RestUtils.success(newName);
+            map.put("fileName",newName);
+            return RestUtils.success(map);
         } catch (IOException e) {
             return RestUtils.error();
         }

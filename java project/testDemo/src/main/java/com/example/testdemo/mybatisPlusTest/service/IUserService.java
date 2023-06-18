@@ -18,7 +18,7 @@ public interface IUserService extends IService<User> {
 
     List<User> login();
 
-    int register();
+    int register(User user);
 
     IPage<User> selectUserPage(IPage<User> page);
 

@@ -16,9 +16,9 @@ class TestDemoApplicationTests {
 
     @Test
     void contextLoads() {
-        String[] tables = {"address","banner","brand","category","channel", "comment", "commentpic",
-                "coupon", "goods","goodsadtion","goodscard", "goodsgallery", "introduceinfo",
-                "issue","products","querytable","specifications","topic","user", "users"};
+        String[] tables = {"address", "banner", "brand", "category", "channel", "comment", "commentpic",
+                "coupon", "goods", "goodsadtion", "goodscard", "goodsgallery", "introduceinfo",
+                "issue", "products", "querytable", "specifications", "topic", "user", "users"};
         //数据源配置
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/webstore", "root", "123456")
                 //全局配置
@@ -63,8 +63,9 @@ class TestDemoApplicationTests {
                 .execute();
     }
 
-//  切面测试类
-    @Test void aopTest() {
+    //  切面测试类
+    @Test
+    void aopTest() {
         demoObject.run();
     }
 

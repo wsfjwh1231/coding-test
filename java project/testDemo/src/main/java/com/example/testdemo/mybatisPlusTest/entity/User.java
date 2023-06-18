@@ -12,6 +12,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * <p>
@@ -23,14 +27,14 @@ import lombok.experimental.Accessors;
  */
 @Data
 //@Accessors(chain = true)
-@TableName("user")
+//@TableName("user")
 @ApiModel(value = "User",description = "用户实体类")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String username;
 
@@ -69,7 +73,7 @@ public class User implements Serializable {
 
     private Boolean deleted;
 
-
+    @TableField(exist = false)
     private List<Goodscard> goodscardList;
 
 

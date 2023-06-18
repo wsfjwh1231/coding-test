@@ -41,9 +41,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public int register() {
+    public int register(User user) {
 
-        return 1;
+        return userMapper.insert(user);
     }
 
     @Override
