@@ -37,6 +37,8 @@ import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -130,7 +132,10 @@ public class UserController {
 //        随机生成用户名
         user.setUsername(RandomUtil.randomString(10));
 //        时间生成
+        DateTime time = new DateTime(new Date());
+        //存储修改后的时间对象
 
+        user.setUpdatetime(time.toLocalDateTime());
         user.setPassword(md5Hex1);
         user.setGender(0);
         user.setUserlevel(0);
@@ -209,12 +214,14 @@ public class UserController {
 //        IPage<User> userIPage = userService.selectUserPage(page);
 
         //根据ID查找单个用户
-        User user = userService.getById(1);
-        Date date = new Date();
-//        生成时间
-        DateTime time = new DateTime(date);
+        User user = userService.getById(6);
 
-//        user.setUpdatetime();
+        //生成时间
+//        Date date = new Date();
+//        DateTime time = new DateTime(date);
+//        time.toString("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localTime =  user.getUpdatetime();
+        user.setUpdatetime(localTime);
 
 //        根据用户名查找用户
 //        User user = userService.selectUserByUsername("unjq2w26og");
@@ -228,7 +235,7 @@ public class UserController {
 //        List<Goodscard> goodscardList = goodscardService.selectGoodscardByUserIdAndProductId(1, 2,pageNo,pageSize);
 //        System.out.println(goodscardService.selectGoodscardNum(1,2));//数据总数
 
-        return RestUtils.success(time);
+        return RestUtils.success(user);
     }
 
 //    上传文件

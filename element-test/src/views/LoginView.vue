@@ -11,7 +11,7 @@
 				</el-form-item>
 				<el-form-item>
 					<el-input prefix-icon="el-icon-lock" type="password" autocomplete="off" placeholder="请输入密码"
-						v-model="passowrd" @input="passwordInput"></el-input>
+						v-model="passowrd" @input="passwordInput" @change="loginBtn"></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="loginBtn" class="loginBtn">登录</el-button>
@@ -69,7 +69,10 @@
 							this.$router.push('/index')
 						}, 1000);
 					} else {
-
+						this.$message({
+							message:"用户名或密码错误",
+							type:"error"
+						})
 					}
 				})
 			}
