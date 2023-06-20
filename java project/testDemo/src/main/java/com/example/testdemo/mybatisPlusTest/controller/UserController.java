@@ -51,6 +51,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/user")
 @Validated
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -128,6 +129,7 @@ public class UserController {
         String md5Hex1 = DigestUtil.md5Hex(testStr);
 //        随机生成用户名
         user.setUsername(RandomUtil.randomString(10));
+//        时间生成
 
         user.setPassword(md5Hex1);
         user.setGender(0);

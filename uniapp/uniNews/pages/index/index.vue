@@ -256,7 +256,7 @@
 	.newClassItem {
 		margin-right: 10px;
 		padding-bottom: 5px;
-		font-size: 80rpx;
+		font-size: 50rpx;
 	}
 
 	.nav {

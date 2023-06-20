@@ -89,14 +89,40 @@
 					}
 				})
 			},
+			
 			// 上传头像
 			upAvatar(){
+				// 上传后端服务器测试
+				// uni.chooseImage({
+				// 	success: (res) => {
+				// 		console.log(res)
+				// 		const tempFilePaths = res.tempFilePaths;
+				// 		uni.uploadFile({
+				// 			url:"http://localhost:8080/user/upFile",
+				// 			filePath: tempFilePaths[0],
+				// 			name:"file",
+				// 			success: (res) => {
+				// 				console.log(res.data)
+				// 				const data = JSON.parse(res.data)
+				// 				console.log(data)
+				// 				this.user.avatar = data.path
+								
+				// 			},
+				// 			fail: (err) => {
+				// 				console.log(err)
+				// 			}
+				// 		})
+				// 	}
+				// })	
+				
 				uni.chooseImage({
 					success: (res) => {
 						console.log(res)
 						const tempFilePaths = res.tempFilePaths;
 						uni.uploadFile({
 							url:"http://101.34.49.100:3002/upload",
+							// url:"http://localhost:8080/user/upFile",
+							method:"POST",
 							filePath: tempFilePaths[0],
 							name:"file",
 							success: (res) => {

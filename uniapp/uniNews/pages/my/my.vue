@@ -89,6 +89,7 @@
 			}
 		},
 		methods: {
+			
 			toInformation(){
 				uni.navigateTo({
 					url:"/pages/my/information/information"
@@ -101,8 +102,9 @@
 			},
 			toEdit(){
 				uni.navigateTo({
-					url: '/pages/my/edit/edit',
+					url: '/pages/my/edit/edit'
 				});
+				
 			}
 		}
 	}
