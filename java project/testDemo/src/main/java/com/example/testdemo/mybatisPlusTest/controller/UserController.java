@@ -4,25 +4,17 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.testdemo.mybatisPlusTest.entity.Goodscard;
 import com.example.testdemo.mybatisPlusTest.entity.User;
 import com.example.testdemo.mybatisPlusTest.service.IGoodscardService;
 import com.example.testdemo.mybatisPlusTest.service.IUserService;
 import com.example.testdemo.test.Result;
-import com.example.testdemo.utils.Category;
+import com.example.testdemo.utils.Token;
 import com.example.testdemo.utils.Jwtutils;
 import com.example.testdemo.utils.RestUtils;
 import io.swagger.annotations.*;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.ClassUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,13 +24,10 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -74,25 +63,22 @@ public class UserController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "token", value = "访问令牌", dataType = "string", paramType = "header", required = false, example = "Bearer your_token"),
-            @ApiImplicitParam(name = "X-Request-ID", value = "请求ID", dataType = "string", paramType = "header", required = false, example = "12345678")
+            @ApiImplicitParam(name = "token",value = "访问令牌",required = true,dataType = "String",paramType = "header",example = "your_token")
     })
     @ApiResponses({
-            @ApiResponse(code = 200, message = "成功") ,
+            @ApiResponse(code = 200,message = "请求成功"),
             @ApiResponse(code = 400,message = "参数错误"),
-            @ApiResponse(code = 401,message = "未授权"),
-            @ApiResponse(code = 403,message = "禁止访问"),
-            @ApiResponse(code = 404,message = "资源不存在"),
+            @ApiResponse(code = 404,message = "未找到"),
             @ApiResponse(code = 500,message = "服务器错误")
     })
-    @ApiOperation(value = "用户登录",notes = "提供用户名和密码，返回用户信息和token。注意，此接口需要提供以下请求头参数：Authorization：（访问令牌）",response = User.class)
+    @ApiOperation(value = "用户登录")
     @GetMapping("/login")
-    public Result login(@ApiParam(value = "用户名",required = true,example = "username") @RequestParam String username,
-                        @ApiParam(value = "密码",required = true,example = "password") @RequestParam String password,
-                        @ApiParam(value = "备注",example = "beizhu") @RequestParam(required = false) String beizhu) {
+    public Result login(@ApiParam(value = "用户名",example = "username") @RequestParam("username") String username,
+                        @ApiParam(value = "密码",required = true,example = "password") @RequestParam("password") String password,
+                        @ApiParam(value = "备注",example = "beizhu") @RequestParam(value = "beizhu",required = false) String beizhu) {
 
         // 生成token
-        String token = Jwtutils.generateToken("三张",1);
+        String token = Jwtutils.createToken("三张",1);
 //       密码 md5加密
         String testStr = "5393554e94bf0eb6436f240a4fd71282";
         String md5Hex1 = DigestUtil.md5Hex(testStr);
@@ -113,8 +99,9 @@ public class UserController {
     }
 
 //    测试token是否有效
-    @Category
+    @Token
     @GetMapping("/protected")
+    @ApiOperation("Token检测")
     public Result protectedResource() {
         return RestUtils.success();
     }
@@ -122,6 +109,7 @@ public class UserController {
 //    注册
 
     @PostMapping("/register")
+    @ApiOperation("注册")
     public Result register() {
         List<User> userList = new ArrayList<>();
         User user  = new User();
@@ -131,11 +119,16 @@ public class UserController {
         String md5Hex1 = DigestUtil.md5Hex(testStr);
 //        随机生成用户名
         user.setUsername(RandomUtil.randomString(10));
-//        时间生成
-        DateTime time = new DateTime(new Date());
+
+        //时间字符串转换为LocalDateTime时间对象
+        String dateStr = "2017-03-01 22:33:23";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime timeObj = LocalDateTime.parse(dateStr, formatter);
+
+
         //存储修改后的时间对象
 
-        user.setUpdatetime(time.toLocalDateTime());
+        user.setUpdatetime(timeObj);
         user.setPassword(md5Hex1);
         user.setGender(0);
         user.setUserlevel(0);
@@ -175,6 +168,7 @@ public class UserController {
 
 //    修改用户信息
     @PutMapping("/update")
+    @ApiOperation("修改用户信息")
     public Result update(@RequestBody @Valid User user) {
 //        User user = new User();
 //        user.setId(4);
@@ -217,11 +211,10 @@ public class UserController {
         User user = userService.getById(6);
 
         //生成时间
-//        Date date = new Date();
-//        DateTime time = new DateTime(date);
-//        time.toString("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime localTime =  user.getUpdatetime();
-        user.setUpdatetime(localTime);
+        Date date = new Date();
+        DateTime time = new DateTime(date);
+        time.toString("yyyy-MM-dd HH:mm:ss");
+
 
 //        根据用户名查找用户
 //        User user = userService.selectUserByUsername("unjq2w26og");

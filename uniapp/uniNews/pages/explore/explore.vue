@@ -6,11 +6,11 @@
 	export default {
 		data() {
 			return {
-
+				time:""
 			}
 		},
 		onLoad() {
-			const token = uni.getStorageSync("token")
+			let token = uni.getStorageSync("token")
 			if (token != '') {
 				console.log(token)
 				uni.switchTab({
@@ -21,9 +21,14 @@
 					url: "/pages/my/login/login"
 				})
 			}
+			
+			this.getTime();
 		},
 		methods: {
-
+			getTime(){
+				let date = new Date();
+				console.log(date);
+			}
 		}
 	}
 </script>
