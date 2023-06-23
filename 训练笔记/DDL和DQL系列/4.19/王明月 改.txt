@@ -1,0 +1,62 @@
+-- 1. 在读者表 (tbl_user) 中插入自己的信息；
+SELECT * FROM tbl_user
+INSERT INTO tbl_user VALUES ('20230419008','王明月',1,'123456789','wangmingyue@mingyue.com')
+
+-- 2. 将 tbl_bookinfo 表中，书名为“计算机基础”的作者改为“甘利发”。
+SELECT * FROM tbl_bookinfo WHERE bookname='甘利发'
+UPDATE tbl_bookinfo SET bookname='甘利发' WHERE bookname='计算机基础'
+
+-- 3. 删除出版社是“宇航出版社”的图书记录。
+SELECT * FROM tbl_bookinfo WHERE publisher='宇航出版社'
+DELETE FROM tbl_bookinfo WHERE publisher='宇航出版社'
+
+-- 4. 在 tbl_Bookinfo 显示“清华大学出版社”在1990后出版图书的书名，作者，页数。
+SELECT bookname AS 书名,author AS 作者,pagecount AS 页数 FROM tbl_Bookinfo WHERE publisher='清华大学出版社' AND publishdate > '1990-01-01'
+
+-- 5. 在 tbl_User 表中找出不姓“蒋”并且名字是3个字的读者信息。-------------------------------------------------------------
+-- 方法1：
+SELECT * FROM tbl_User WHERE username LIKE '%蒋%' AND username LIKE '___'
+-- 方法2：
+SELECT * FROM tbl_User WHERE username LIKE '%蒋%' AND length(username) = 9
+
+-- 6. 查询借阅表 (tbl_borrowinfo) 中第11-20行记录。
+SELECT * FROM tbl_borrowinfo LIMIT 10,10
+
+-- 7. 在 tbl_user 表中查询用户名(要求去掉重复值)，取最前面的5个读者信息数据。
+SELECT * FROM tbl_user
+GROUP BY username
+LIMIT 5
+
+-- 8. 查询4月、7月各出版社出版图书的总册数。显示每本书书名、作者、出版社、出版日期及至今的年限。---------------
+SELECT  bookname AS 书名,author AS 作者,publisher AS 出版社,publishdate AS 出版日期,floor(datediff(NOW(),publishdate)/365) AS 年限,COUNT(*) AS 总册数 FROM tbl_bookinfo  
+WHERE MONTH(publishdate) IN(4,7)
+GROUP BY publisher
+
+
+-- 9. 查询出借阅索取号为 “G40-092.2/5” 图书的读者姓名(要求去重)。
+SELECT u.username AS 读者姓名 FROM tbl_borrowinfo b
+JOIN tbl_user u ON b.userid = u.userid
+WHERE bookid = 'G40-092.2/5'
+GROUP BY u.username 
+
+-- 10. 查询出所有借过书的，且性别为女的信息(提示： tbl_user.sex=1 ：男； tbl_user.sex=0 ：女；)。借阅信息（包括：书名、借书时间、读者名）。
+SELECT u.userid AS 用户ID, u.username AS 姓名,u.sex AS 性别,u.email AS 邮箱,c.bookname FROM tbl_user u
+JOIN tbl_borrowinfo b ON u.userid = b.userid
+JOIN tbl_bookinfo c  ON b.bookid = c.bookid
+WHERE sex = 0
+
+
+-- 11. 查询与《管理信息系统原理与实践》同一出版社的所有图书的信息。
+SELECT * FROM tbl_bookinfo
+WHERE publisher IN(SELECT publisher FROM tbl_bookinfo WHERE bookname ='管理信息系统原理与实践')
+
+-- 12. 从图书信息表及图书类型表中检索书名、作者、出版社、类别编号、类别名称，所有的类别名称均显示。
+SELECT bi.bookname AS 书名, bi.author AS 作者, bi.publisher AS 出版社,bc.classid AS 类别编号,bc.classname AS 类别名称 FROM tbl_bookclass bc
+join tbl_bookinfo bi ON bc.classid = bi.classid
+
+-- 15. 查询同时借了 “G40-092.2/5” 与 “X17/5” 这两本书的读者信息。
+SELECT u.username AS 读者名称 FROM tbl_borrowinfo bri
+JOIN tbl_bookinfo bki ON bri.bookid = bki.bookid
+JOIN tbl_user u ON u.userid = bri.userid
+WHERE bki.bookid IN('G40-092.2/5','X17/5')
+GROUP BY username

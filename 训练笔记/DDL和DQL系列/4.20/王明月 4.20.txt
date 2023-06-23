@@ -1,0 +1,18 @@
+-- 将所有"运营部"的员工薪资增加500
+SELECT * FROM employees
+
+UPDATE employees e
+JOIN departments d ON e.department_id=d.department_id
+SET e.salary = e.salary + 500
+WHERE d.department_name = '运营部'
+
+
+
+-- 计算所有年龄在40-45岁之间的员工所在部门的员工的平均薪资上浮5%
+START TRANSACTION
+UPDATE employees e
+JOIN  (SELECT * FROM employees
+WHERE age > 20 AND age < 25) em
+ON em.employee_id = e.employee_id
+SET e.salary = e.salary *1.05
+COMMIT

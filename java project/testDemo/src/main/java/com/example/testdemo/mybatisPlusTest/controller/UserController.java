@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.example.testdemo.mybatisPlusTest.entity.Goodscard;
 import com.example.testdemo.mybatisPlusTest.entity.User;
 import com.example.testdemo.mybatisPlusTest.service.IGoodscardService;
 import com.example.testdemo.mybatisPlusTest.service.IUserService;
@@ -79,7 +80,7 @@ public class UserController {
 
         // 生成token
         String token = Jwtutils.createToken("三张",1);
-//       密码 md5加密
+//       密码 md5加密(摘要加密)
         String testStr = "5393554e94bf0eb6436f240a4fd71282";
         String md5Hex1 = DigestUtil.md5Hex(testStr);
         String url = "C:\\Users\\admin\\Desktop";
@@ -201,26 +202,26 @@ public class UserController {
 
     //查找用户
     @GetMapping("/select")
-    public Result select(@Max(5) String pageNo,
+    public Result select(@Max(5) int pageNo,
                          @Min(3) int  pageSize){
         //分页查找所有用户
 //        Page<User> page = new Page<>(2,3);
 //        IPage<User> userIPage = userService.selectUserPage(page);
 
         //根据ID查找单个用户
-        User user = userService.getById(6);
+//        User user = userService.getById(6);
 
         //生成时间
-        Date date = new Date();
-        DateTime time = new DateTime(date);
-        time.toString("yyyy-MM-dd HH:mm:ss");
+//        Date date = new Date();
+//        DateTime time = new DateTime(date);
+//        time.toString("yyyy-MM-dd HH:mm:ss");
 
 
 //        根据用户名查找用户
 //        User user = userService.selectUserByUsername("unjq2w26og");
 
 //      一对多关系查询
-//        User user = userService.selectUserAndGoodscardList("sophie");
+        User user = userService.selectUserAndGoodscardList("sophie");
 
 //      自定义条件查询加 分页  ！！！！！！！！！！！！ 要进行两次查询，才能得到数据总数
 
@@ -232,18 +233,21 @@ public class UserController {
     }
 
 //    上传文件
-    @PostMapping("upFile")
+    @PostMapping("/upFile")
     public Result upFile(@RequestParam("file") MultipartFile multipartFile){
 
         try {
             Map<String,Object> map  = new HashMap<>();
             String fileName = multipartFile.getOriginalFilename();
+            System.out.println(fileName);
             //获取原始文件后缀名
-            String suffix = Objects.requireNonNull(fileName).substring(fileName.lastIndexOf("."));
+
+            int suffixIndex =  fileName.lastIndexOf(".");
+            String suffix = fileName.substring(suffixIndex);
+
             //新文件名
             String newName = IdUtil.randomUUID() + suffix;
             String newPath = path + newName;
-
 
             File file = new File(newPath);
 
@@ -254,7 +258,5 @@ public class UserController {
         } catch (IOException e) {
             return RestUtils.error();
         }
-
-
     }
 }

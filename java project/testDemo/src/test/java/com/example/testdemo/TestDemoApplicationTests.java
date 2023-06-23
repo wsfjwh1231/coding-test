@@ -21,6 +21,7 @@ class TestDemoApplicationTests {
                 "issue", "products", "querytable", "specifications", "topic", "user", "users"};
         //数据源配置
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/webstore", "root", "123456")
+
                 //全局配置
                 .globalConfig(builder -> {
                     // 设置作者
@@ -29,11 +30,12 @@ class TestDemoApplicationTests {
                             .enableSwagger()
                             // 覆盖已生成文件
 //                            .fileOverride()
-                            // 指定输出目录
+                            // 指定输出目录 直接粘贴
                             .outputDir("D:\\java\\testDemo\\src\\main\\java")
                             // 注释日期
                             .commentDate("yyyy-MM-dd");
                 })
+
 
                 //包配置
                 .packageConfig(builder -> {
@@ -63,10 +65,16 @@ class TestDemoApplicationTests {
                 .execute();
     }
 
-    //  切面测试类
+    //  测试类
     @Test
-    void aopTest() {
-        demoObject.run();
+    void TestDemo() {
+        String a = "zhangsan";
+        String b = "zhangsan";
+        String c = "zhangsa";
+
+        System.out.println(a.equals(b));
+        System.out.println(a.equals(c));
+
     }
 
 }

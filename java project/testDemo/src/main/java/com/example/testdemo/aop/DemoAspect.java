@@ -11,11 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+
 
 @Component//纳入spring容器
 @Aspect//声明为切面类
@@ -44,9 +46,8 @@ public class DemoAspect {
 //            return RestUtils.error("您没有权限访问");
 //        }
 //
-//        return (Result)proceedingJoinPoint.proceed();
+//        return (Result)proceedingJoinPoint.proceed();nnnnnnnnnnnnnnnnnnnnnn                              nn
 //        ===============================================================Hutool token 开始==================================================================
-
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("token");
         boolean isToken = Jwtutils.verify(token);

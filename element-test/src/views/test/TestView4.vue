@@ -7,7 +7,6 @@
 					<img :src="item.url" alt="轮播图">
 				</el-carousel-item>
 			</el-carousel>
-
 		</div>
 
 		<el-time-select
@@ -20,11 +19,22 @@
 		  placeholder="选择时间"
 		  @change="selectTime">
 		</el-time-select>
+		
+		<br />
+		<br />
+		<!-- ---------------------------------------------------多选框-------------------------------------------------------- -->
+		
+		  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+		  <div style="margin: 15px 0;"></div>
+		  <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+		    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+		  </el-checkbox-group>
 	</div>
 </template>
 
 <script>
 	import axios from "axios"
+	const cityOptions = ['上海', '北京', '广州', '深圳'];
 	export default {
 		data() {
 			return {
@@ -71,7 +81,12 @@
 					timestamp: '2018-04-03 20:46'
 				}],
 				
-				value: ''
+				value: '',
+				//------------------------------------------------------
+				checkAll: false,
+				checkedCities: ['上海', '北京'],
+				cities: cityOptions,
+				isIndeterminate: true
 			}
 		},
 		mounted() {
@@ -80,6 +95,20 @@
 		methods:{
 			selectTime(){
 				console.log(this.value);
+			},
+			
+			
+			handleCheckAllChange(val) {
+				console.log(val);
+				this.checkedCities = val ? cityOptions : [];
+				this.isIndeterminate = false;
+			},
+			
+			handleCheckedCitiesChange(value) {
+				console.log(value);
+				let checkedCount = value.length;
+				this.checkAll = checkedCount === this.cities.length;
+				this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
 			}
 		}
 	}

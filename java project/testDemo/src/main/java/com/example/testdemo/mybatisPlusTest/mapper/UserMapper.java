@@ -2,10 +2,7 @@ package com.example.testdemo.mybatisPlusTest.mapper;
 
 import com.example.testdemo.mybatisPlusTest.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -41,5 +38,14 @@ public interface UserMapper extends BaseMapper<User> {
             @Result(column = "nickname",property = "nickname")
     })
     User selectUserAndGoodscardList(String userName);
+
+
+    @Select("select * " +
+            "from user " +
+            "where username = #{username}")
+    @Results({
+            @Result(column = "user_name",property ="username")
+    })
+    User testlog(String tete);
 
 }
