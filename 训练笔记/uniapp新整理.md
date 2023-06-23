@@ -121,7 +121,7 @@ uni.chooseImage({
 ```
 
 
-### uni和app的区别
+### uniapp和vue的区别
 ```javascript
 // UNIAPP
 onLoad() {

@@ -7,6 +7,7 @@ spring:
     multipart:
       location: D:\img\
 
+
   jpa:
     database: mysql
     show-sql: true
@@ -14,18 +15,32 @@ spring:
       ddl-auto: update
 
 
+<<<<<<< Updated upstream
 #  datasource:
 #    username: admin
 #    password: LIUGANGlz_2
 #    url: jdbc:mysql://202.103.238.135:12098/webstore
 #    driver-class-name: com.mysql.cj.jdbc.Driver
+=======
+
+>>>>>>> Stashed changes
   datasource:
     username: root
     password: 123456
     url: jdbc:mysql://localhost:3306/webstore
     driverClassName: com.mysql.cj.jdbc.Driver
+<<<<<<< Updated upstream
     type: com.zaxxer.hikari.HikariDataSource
 
+=======
+
+#  datasource:
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://localhost:3306/webstore
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    type: com.zaxxer.hikari.HikariDataSource
+>>>>>>> Stashed changes
 mybatis-plus:
   configuration:
     #日志

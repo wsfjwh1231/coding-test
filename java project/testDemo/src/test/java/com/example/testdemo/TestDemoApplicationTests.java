@@ -19,6 +19,7 @@ class TestDemoApplicationTests {
         String[] tables = {"address", "banner", "brand", "category", "channel", "comment", "commentpic",
                 "coupon", "goods", "goodsadtion", "goodscard", "goodsgallery", "introduceinfo",
                 "issue", "products", "querytable", "specifications", "topic", "user", "users"};
+
         //数据源配置
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/webstore", "root", "123456")
 
@@ -43,20 +44,21 @@ class TestDemoApplicationTests {
                     builder.parent("com.example.testdemo");
                 })
 
+
+
                 //策略配置
                 .strategyConfig(builder -> {
                     //遍历所有表名
                     for (String table1 : tables) {
                         builder.addInclude(table1)
-
                                 // 设置过滤表前缀
                                 .addTablePrefix("t_")
                                 //使用Lombok
                                 .entityBuilder().enableLombok();
-
                     }
 
                 })
+
 
                 //模板引擎配置
                 // 使用Freemarker引擎模板，默认的是Velocity引擎模板
